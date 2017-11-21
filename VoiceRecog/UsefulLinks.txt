@@ -1,0 +1,3 @@
+http://www.speech.cs.cmu.edu/tools/lmtool-new.html
+https://github.com/drejkim/led-speech-edison
+https://cmusphinx.github.io/wiki/tutorial/
