@@ -32,26 +32,26 @@ while(True):
 			cX = 0
 			cY = 0
 			if (M["m00"] != 0):
-				cX = int((M["m10"] / M["m00"]) * ratio)
-				cY = int((M["m01"] / M["m00"]) * ratio)
+				cX = int((M["m10"] / M["m00"]))
+				cY = int((M["m01"] / M["m00"]))
 
 			shape = sd.detect(c)
 	 		# color = cd.detect(frame[cX, cY])
 	 		color = "unknown"
-	 		if cX < frame.shape[0] and cY < frame.shape[1]:
-	 			pixel = hsv[cX, cY]
+	 		if cX < resized.shape[0]-20 and cX > 20 and cY < resized.shape[1]-20 and cY > 20:
+	 			pixel = resized[cX-20:cX+20, cY-20:cY+20]
 	 			color = cd.detect(pixel)
 			# multiply the contour (x, y)-coordinates by the resize ratio,
 			# then draw the contours and the name of the shape on the image
 			c = c.astype("float")
-			c *= ratio
+			# c *= ratio
 			c = c.astype("int")
-			cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
-			cv2.putText(frame, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-	 		cv2.putText(frame, color, (cX, cY-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+			cv2.drawContours(resized, [c], -1, (0, 255, 0), 2)
+			cv2.putText(resized, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+	 		cv2.putText(resized, color, (cX, cY-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 			# show the output image
 
-		cv2.imshow('frame', frame)
+		cv2.imshow('frame', resized)
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break
 cap.release()
