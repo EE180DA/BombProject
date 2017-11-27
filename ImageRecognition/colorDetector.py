@@ -7,7 +7,6 @@ class ColorDetector:
 		pass
  
 	def detect(self, hsv):
-		cv2.imshow('frame',hsv)
 		red1_lower_range = np.array([159, 100, 100], dtype=np.uint8)
 		red1_upper_range = np.array([199, 255, 255], dtype=np.uint8)
 
