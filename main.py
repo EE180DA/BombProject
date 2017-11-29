@@ -8,7 +8,7 @@ class GameInstance:
 			diff = raw_input("Please choose a difficulty level (1-3): ")
 			diff = int(diff)
 		self.difficulty = diff
-		self.time = 5 #time left in seconds
+		self.time = 50*self.difficulty #time left in seconds
 		self.timeleft = self.time+3
 		
 		self.complete = False
@@ -28,20 +28,59 @@ class GameInstance:
 		print "Time left: " + str(int(self.timeleft))
 		return int(self.timeleft)
 
+	def print_timeleft(self, startTime, oldtimeleft):
+		timeDiff = int(time.time()) - startTime
+		self.timeleft = self.time - timeDiff
+		if oldtimeleft-self.timeleft >= 1:
+			self.get_time()
+			return self.timeleft
+		return oldtimeleft
+			#Also write new time to LCD screen
+
 	def start_game(self):
 		startTime = int(time.time())
 		oldtimeleft = self.timeleft
+		currGame = 1
 		while(not self.complete and self.timeleft > 0):
-			timeDiff = int(time.time()) - startTime
-			self.timeleft = self.time - timeDiff
-			if oldtimeleft-self.timeleft >= 1:
-				self.get_time()
-				oldtimeleft = self.timeleft
+			oldtimeleft = self.print_timeleft(startTime, oldtimeleft)
 				#Also write new time to LCD screen
+
+			print "Time to play: " + self.minigames[0]
+			while(self.timeleft > 0):
+				oldtimeleft = self.print_timeleft(startTime, oldtimeleft)
+				if(self.timeleft < self.time-5):
+					break
+
+			print "Time to play: " + self.minigames[1]
+			while(self.timeleft > 0):
+				oldtimeleft = self.print_timeleft(startTime, oldtimeleft)
+				if(self.timeleft < self.time-10):
+					break
+
+			print "Time to play: " + self.minigames[2]
+			while(self.timeleft > 0):
+				oldtimeleft = self.print_timeleft(startTime, oldtimeleft)
+				if(self.timeleft < self.time-15):
+					break
+
+			print "Time to play: " + self.minigames[3]
+			while(self.timeleft > 0):
+				oldtimeleft = self.print_timeleft(startTime, oldtimeleft)
+				if(self.timeleft < self.time-20):
+					break
+
+			print "Time to play: " + self.minigames[4]
+			while(self.timeleft > 0):
+				oldtimeleft = self.print_timeleft(startTime, oldtimeleft)
+				if(self.timeleft < self.time-25):
+					break
+			self.complete = True
+
+
 		if self.timeleft == 0:
 			print "BOOM"
 		else:
-			print "congratulations"
+			print "Congratulations you've defused the bomb"
 
 	def get_minigames(self):
 		print '[%s]'%', '.join(map(str, self.minigames))
