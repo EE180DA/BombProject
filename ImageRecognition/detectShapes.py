@@ -39,7 +39,7 @@ while(True):
 	 		# color = cd.detect(frame[cX, cY])
 	 		color = "unknown"
 	 		if cX < resized.shape[0]-20 and cX > 20 and cY < resized.shape[1]-20 and cY > 20:
-	 			pixel = resized[cX-20:cX+20, cY-20:cY+20]
+	 			pixel = resized[cX-5:cX+5, cY-5:cY+5]
 	 			color = cd.detect(pixel)
 			# multiply the contour (x, y)-coordinates by the resize ratio,
 			# then draw the contours and the name of the shape on the image

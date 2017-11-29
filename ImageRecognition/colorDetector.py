@@ -35,23 +35,23 @@ class ColorDetector:
 		for i in range (0, blackmask.shape[0]):
 			for j in range (0, blackmask.shape[1]):
 				values[0]+=blackmask[i,j]
-		print("Number of black pixels: %d" % (values[0]))
+		print("Number of black pixels: %d" % (values[0]/255))
 		for i in range (0, red1mask.shape[0]):
 			for j in range (0, red1mask.shape[1]):
 				values[1]+=red1mask[i,j]
-		print("Number of red1 pixels: %d" % (values[1]))
+		print("Number of red1 pixels: %d" % (values[1]/255))
 		for i in range (0, red2mask.shape[0]):
 			for j in range (0, red2mask.shape[1]):
 				values[2]+=red2mask[i,j]
-		print("Number of red2 pixels: %d" % (values[2]))
+		print("Number of red2 pixels: %d" % (values[2]/255))
 		for i in range (0, bluemask.shape[0]):
 			for j in range (0, bluemask.shape[1]):
 				values[3]+=bluemask[i,j]
-		print("Number of blue pixels: %d" % (values[3]))
+		print("Number of blue pixels: %d" % (values[3]/255))
 		for i in range (0, greenmask.shape[0]):
 			for j in range (0, greenmask.shape[1]):
 				values[4]+=greenmask[i,j]
-		print("Number of green pixels: %d" % (values[4]))
+		print("Number of green pixels: %d" % (values[4]/255))
 		m = values.index(max(values))
 		if max(values) != 0:
 			if m == 0:
