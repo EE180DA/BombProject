@@ -14,31 +14,32 @@ import sphinxbase
 class SpeechRecognition:
     # Parameters for pocketsphinx
     def __init__(self):
-        self.LMD   = "/home/root/led-speech-edison/lm/2995.lm"
-        self.DICTD = "/home/root/led-speech-edison/lm/2995.dic"
+        self.LMD   = "/home/root/led-speech-edison/lm/3867.lm"
+        self.DICTD = "/home/root/led-speech-edison/lm/3867.dic"
         self.CHUNK = 1024
         self.FORMAT = pyaudio.paInt16
         self.CHANNELS = 1
         self.RATE = 16000
         self.RECORD_SECONDS = 2
         self.PATH = 'output'
-        self.items = ["APPLE", "BANANA", "ORANGE", "GRAPEFRUIT"]
-        self.answer = sample(self.items,1)
+        self.items = ['APPLE', 'BANANA', 'ORANGE', 'GRAPEFRUIT']
+        self.answer = sample(self.items,1)[0]
 
 
     def triggerWords(self, words):
-        if "APPLE" in words:
-            print("Apple keyword detected")
-        if "BANANA" in words:
-            print("Banana keyword detected")
-        if "ORANGE" in words:
-            print("Orange keyword detected")
-        if "GRAPEFRUIT" in words:
-            print("Grapefruit keyword detected")
-        if self.answer in words:
-            print(self.answer)
-            return(1)
-
+        print(self.answer)
+        #Grapefruit is unlikely to be randomly triggered by noise
+        #Difficult to detect 'keyword grapefruit'
+        if self.answer == "GRAPEFRUIT":
+            if "GRAPEFRUIT" in words:
+                print("Correct Keyword Detected")
+                return(1)
+        #Detect keyword and then answer to complete round
+        if "KEYWORD" in words:
+            if self.answer in words:
+                print("Correct Keyword Detected")
+                return(1)
+          
     def decodeSpeech(self, speech_rec, wav_file):
 	wav_file = file(wav_file,'rb')
 	wav_file.seek(44)
