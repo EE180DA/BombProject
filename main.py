@@ -13,7 +13,7 @@ class GameInstance:
 			diff = raw_input("Please choose a difficulty level (1-3): ")
 			diff = int(diff)
 		self.difficulty = diff
-		self.time = 240/self.difficulty #time left in seconds
+		self.time = 9/self.difficulty #time left in seconds
 		self.timeleft = self.time+3
 		
 		self.complete = False
@@ -68,7 +68,7 @@ class GameInstance:
 		print "0"
 
 	def start_game(self):
-		self.intro()
+		#self.intro()
 		currGame = 1
 		self.thread.start()
 		while(not self.complete and self.timeleft > 0):
@@ -78,6 +78,7 @@ class GameInstance:
 			result = self.start_minigame(self.minigames[0])
 			if result == 1:
 				print "Congratulations you passed the first level"
+
 			print "\nTime to play: " + self.minigames[1]
 			result = self.start_minigame(self.minigames[1])
 			if result == 1:
@@ -111,8 +112,8 @@ class GameInstance:
 
 	def start_minigame(self, game_name):
 		if game_name == "images":
-			print "Draw a black triangle!"
 			d = DetectShapes()
+			print "Draw a " + d.get_target_color() + ' ' + d.get_target_shape() + "!"
 			result = d.start_minigame()
 		elif game_name == "buttons":
 			result = 1

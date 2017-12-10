@@ -10,6 +10,13 @@ class DetectShapes:
 	def __init__ (self):
 		pass
 
+
+	def get_target_shape(self):
+		return "triangle"
+
+	def get_target_color(self):
+		return "black"
+
 	def start_minigame(self):
 		cap = cv2.VideoCapture(0)
 		detectCount = 0
@@ -19,8 +26,8 @@ class DetectShapes:
 			ret, frame = cap.read()
 			fullyDetected = False
 			if ret:
-				hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 				resized = imutils.resize(frame, width=300)
+				ycb = cv2.cvtColor(resized, cv2.COLOR_BGR2YCrCb)
 				ratio = frame.shape[0] / float(resized.shape[0])
 				gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
 				blurred = cv2.GaussianBlur(gray, (5, 5), 0)
@@ -46,8 +53,8 @@ class DetectShapes:
 					shape = sd.detect(c)
 			 		# color = cd.detect(frame[cX, cY])
 			 		color = "unknown"
-			 		if cX < resized.shape[0]-20 and cX > 20 and cY < resized.shape[1]-20 and cY > 20:
-			 			pixel = resized[cX-5:cX+5, cY-5:cY+5]
+			 		if cX < resized.shape[0]-10 and cX > 10 and cY < resized.shape[1]-10 and cY > 10:
+			 			pixel = ycb[cX-10:cX+10, cY-10:cY+10]
 			 			color = cd.detect(pixel)
 					# multiply the contour (x, y)-coordinates by the resize ratio,
 					# then draw the contours and the name of the shape on the image
@@ -58,9 +65,9 @@ class DetectShapes:
 					cv2.putText(resized, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 			 		cv2.putText(resized, color, (cX, cY-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 					# show the output image
-					#print shape + ' ' + color
 					if shape == "triangle" and color == "black":
 						detected = True
+						# print "detected"
 				if detected:
 					detectCount += 1
 				else:
@@ -77,8 +84,10 @@ class DetectShapes:
 					break
 		cap.release()
 		cv2.destroyAllWindows()
-		if detected:
+		if fullyDetected:
 			return 1
+		else:
+			return 0
 
 if __name__ == '__main__':
 	d = DetectShapes()
