@@ -115,11 +115,9 @@ class GameInstance:
 	def start_minigame(self, game_name):
 		result = 0
 		if game_name == "images":
-			#d = DetectShapes()
-			#print "Draw a " + d.get_target_color() + ' ' + d.get_target_shape() + "!"
-			#result = d.start_minigame()
-                        result = 1
-                        time.sleep(5)
+			d = DetectShapes()
+			print "Draw a " + d.get_target_color() + ' ' + d.get_target_shape() + "!"
+			result = d.start_minigame()
 		elif game_name == "buttons":
 			result = 1
 			time.sleep(5)
