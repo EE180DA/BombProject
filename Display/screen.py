@@ -5,10 +5,10 @@ class Display:
 		setRGB(255,255,255)
 #write on top row
         def writeTop(self,text):
-		setText(text,1)
+		  setText(text,1)
 #write on bottom row
         def writeBot(self,text):
-		setText(text,2)
+		  setText(text,2)
 #flash for x seconds 
         def flash(self,timer):
             while timer>0:
