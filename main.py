@@ -31,7 +31,7 @@ class GameInstance:
 		self.prevTopText = ""
 		self.botText = ""
 		self.prevBotText = ""
-		lcd = Display()
+		self.lcd = Display()
 
 
 	def kill(self):
@@ -39,11 +39,11 @@ class GameInstance:
 
 	def writeTop(self, text):
 		self.prevTopText = self.topText
-		self.topText = lcd.writeTop(text)
+		self.topText = self.lcd.writeTop(text)
 
 	def writeBot(self, text):
 		self.prevBotText = self.botText
-		self.botText = lcd.writeBot(text)
+		self.botText = self.lcd.writeBot(text)
 
 	def get_difficulty(self):
 		print "Difficulty level: " + str(self.difficulty)
