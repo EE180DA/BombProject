@@ -10,7 +10,7 @@ import webbrowser
 from WireCutting.WireCutting import WireCutting
 #from VoiceRecog.speech.speech.speech import SpeechRecognition
 from Display.screen import Display
-
+from Server.server import Server
 class GameInstance:
 
 	def __init__(self, diff = -1):
@@ -34,6 +34,7 @@ class GameInstance:
 		self.lcd = Display()
                 self.writeTop("")
                 self.writeBot("")
+         self.server = Server()
 
 	def kill(self):
 		del self
@@ -167,23 +168,29 @@ class GameInstance:
                         result = 1
                         time.sleep(5)
 		elif game_name == "buttons":
-                        self.writeTop("Buttons")
+            self.writeTop("Buttons")
 			result = 1
 			time.sleep(5)
 
 		elif game_name == "gestures":
-                        self.writeTop("Gestures")
-			result = 1
-			time.sleep(5)
+            self.writeTop("Gestures")
+            while result == 0:
+            	result = server.start_server("1234")
+				if result == 0:
+					self.time -= self.errorPenalty
+					self.writeTop("Error")
+					print "Error!"
+					time.sleep(1)
+					self.writeTop("Gestures")
 
 		elif game_name == "voice":
-                        self.writeTop("Voice")
+            self.writeTop("Voice")
 			#v = SpeechRecognition()
 			#result = v.startrecording()
-                        result = 1
-                        time.sleep(5)
+            result = 1
+            time.sleep(5)
 		elif game_name == "wirecutting":
-                        self.writeTop("Wirecutting")
+            self.writeTop("Wirecutting")
 			while result == 0:
 				w = WireCutting()
 				result = w.startGame()
