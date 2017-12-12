@@ -1,4 +1,5 @@
-What type of fruit can be both red and green? APPLE - RED
-What is the name of the fruit that is also the name of the color? ORANGE - BLUE
-What type of fruit has the word "fruit" in its name? GRAPEFRUIT - ALL
-BANANA - GREEN
+0. What type of fruit can be both red and green? APPLE
+1. What type of fruit BANANA 
+2. What is the name of the fruit that is also the name of the color? ORANGE 
+3. What type of fruit has the word "fruit" in its name? GRAPEFRUIT 
+

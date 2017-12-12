@@ -3,7 +3,6 @@ import mraa
 import os
 import sys
 import time
-from random import sample
 
 # Import things for pocketsphinx
 import pyaudio
@@ -23,13 +22,16 @@ class SpeechRecognition:
         self.RECORD_SECONDS = 2
         self.PATH = 'output'
         self.items = ['APPLE', 'BANANA', 'ORANGE', 'GRAPEFRUIT']
-        self.answer = sample(self.items,1)[0]
+        self.answer = ""
+        
 
 
-    def triggerWords(self, words):
+    def triggerWords(self, words, game_code):
+        self.answer = self.items[game_code]
         print(self.answer)
         #Grapefruit is unlikely to be randomly triggered by noise
-        #Difficult to detect 'keyword grapefruit'
+        #Difficult to detect 'keyword grapefruit' all together
+        #Thus, 'Keyword' does not need to be said if the answer is grapefruit
         if self.answer == "GRAPEFRUIT":
             if "GRAPEFRUIT" in words:
                 print("Correct Keyword Detected")
@@ -50,7 +52,7 @@ class SpeechRecognition:
    # def blockprint(self):
     #    sys.stderr = open(os.devnull, 'w')
 
-    def startrecording(self):
+    def startrecording(self, game_code):
        
         if not os.path.exists(self.PATH):
             os.makedirs(self.PATH)
@@ -86,7 +88,8 @@ class SpeechRecognition:
             rec_words = recognised.split()
 
             # Trigger Words
-            result = self.triggerWords(rec_words)
+            result = self.triggerWords(rec_words, game_code)
+            #Check if the correct answer was said
             if result == 1:
                 return(1)
 
@@ -97,7 +100,7 @@ class SpeechRecognition:
 if __name__ == "__main__":
     g = SpeechRecognition()
     try:
-        output = g.startrecording()
+        output = g.startrecording(1)
         if output == 1:
             print("Round passed")
         else:

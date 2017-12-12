@@ -32,9 +32,10 @@ class GameInstance:
 		self.botText = ""
 		self.prevBotText = ""
 		self.lcd = Display()
-                self.writeTop("")
+        		self.writeTop("")
                 self.writeBot("")
-                self.server = Server()
+        self.server_gesture = Server(0)
+        self.server_wire = Server(1)
 
 	def kill(self):
 		del self
@@ -174,8 +175,9 @@ class GameInstance:
 
 		elif game_name == "gestures":
                         self.writeTop("Gestures")
+                        self.writeBot("NOD!!")
                         while result == 0:
-            	            result = self.server.start_server("1234")
+            	            result = self.server_gesture.start_server("1234")
 			    if result == 0:
 					self.time -= self.errorPenalty
 					self.writeTop("Error")
@@ -185,20 +187,23 @@ class GameInstance:
 
 		elif game_name == "voice":
                         self.writeTop("Voice")
-			#v = SpeechRecognition()
-			#result = v.startrecording()
-                        result = 1
-                        time.sleep(5)
+                        self.writeBot("ORANGE")
+			v = SpeechRecognition()
+			result = v.startrecording(2)
+
 		elif game_name == "wirecutting":
                         self.writeTop("Wirecutting")
-			#while result == 0:
-				#w = WireCutting()
-				#result = w.startGame()
-				#if result == 0:
-				#	self.time -= self.errorPenalty
-				#	print "Error! Reconnect that wire within 5 seconds!"
-			time.sleep(5)
-
+                        self.writeBot("Cut Blk-Blk")
+						while result == 0:
+            	            result = self.server_wire.start_server("BlBl")
+			    if result == 0:
+					self.time -= self.errorPenalty
+					self.writeTop("Error")
+					print "Error! You failed"
+					time.sleep(1)
+					self.writeTop("Wirecutting")
+			
+			
 		return result	
 
 
