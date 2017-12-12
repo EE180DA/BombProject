@@ -10,11 +10,19 @@ class Display:
         def writeBot(self,text):
 		setText(text,2)
 #flash for x seconds 
-        def flash(self,timer):
+        def flash(self,timer,color):
             while timer>0:
-                setRGB(255,0,0)
+                if (color == "r")
+                    r=255
+                    g=0
+                    b=0
+                elif (color == "g")
+                    r=0
+                    g=255
+                    b=0
+                setRGB(r,g,b)
                 time.sleep(0.1)
-                setRGB(255,255,255)
+                setRGB(r,g,b)
                 time.sleep(0.1)
                 timer -= 0.2
 
@@ -25,5 +33,5 @@ if __name__ == '__main__':
 	g.writeBot("World")
         time.sleep(1)
         g.writeTop("Refresh")
-        g.flash(3)
+        g.flash(3,"r")
 
