@@ -32,7 +32,8 @@ class GameInstance:
 		self.botText = ""
 		self.prevBotText = ""
 		self.lcd = Display()
-
+                self.writeTop("")
+                self.writeBot("")
 
 	def kill(self):
 		del self
@@ -96,7 +97,7 @@ class GameInstance:
 		self.writeTop("0")
 
 	def start_game(self):
-		#self.intro()
+		self.intro()
 		currGame = 1
 		self.thread.start()
 		while(not self.complete and self.timeleft > 0):
@@ -106,33 +107,51 @@ class GameInstance:
 			result = self.start_minigame(self.minigames[0])
 			if result == 1:
 				print "Congratulations you passed the first level"
+                                
+                                self.writeTop("Passed")
+                                time.sleep(0.5)
 
 			print "\nTime to play: " + self.minigames[1]
 			result = self.start_minigame(self.minigames[1])
 			if result == 1:
 				print "Congratulations you passed the second level"	
+                                
+                                self.writeTop("Passed")
+                                time.sleep(0.5)
 
 			print "\nTime to play: " + self.minigames[2]
 			result = self.start_minigame(self.minigames[2])
 			if result == 1:
 				print "Congratulations you passed the third level"
+                                
+                                self.writeTop("Passed")
+                                time.sleep(0.5)
 
 			print "\nTime to play: " + self.minigames[3]
 			result = self.start_minigame(self.minigames[3])
 			if result == 1:
 				print "Congratulations you passed the fourth level"
-
+                                
+                                self.writeTop("Passed")
+                                time.sleep(0.5)
 			print "\nTime to play: " + self.minigames[4]
 			result = self.start_minigame(self.minigames[4])
 			if result == 1:
-				print "Congratulations you passed the last level"
+				print "Congratulations you passed the last level"                               
+                                self.writeTop("Passed")
+                                time.sleep(0.5)
 			self.complete = True
 
 
 		if self.timeleft == 0:
 			print "BOOM"
+                        self.writeTop("BOOOOM!!")
+                        self.writeBot("")
+                        self.lcd.flash(5)
 		else:
 			print "Congratulations you've defused the bomb"
+                        self.writeTop("Congratulations!")
+                        self.lcd.flash(5)
 
 	def get_minigames(self):
 		print '[%s]'%', '.join(map(str, self.minigames))
@@ -141,23 +160,30 @@ class GameInstance:
 	def start_minigame(self, game_name):
 		result = 0
 		if game_name == "images":
-			d = DetectShapes()
-			print "Draw a " + d.get_target_color() + ' ' + d.get_target_shape() + "!"
-			result = d.start_minigame()
-
+                        self.writeTop("Images")
+			#d = DetectShapes()
+			#print "Draw a " + d.get_target_color() + ' ' + d.get_target_shape() + "!"
+			#result = d.start_minigame()
+                        result = 1
+                        time.sleep(5)
 		elif game_name == "buttons":
+                        self.writeTop("Buttons")
 			result = 1
 			time.sleep(5)
 
-		elif game_name == "gestures":	
+		elif game_name == "gestures":
+                        self.writeTop("Gestures")
 			result = 1
 			time.sleep(5)
 
 		elif game_name == "voice":
-			v = SpeechRecognition()
-			result = v.startrecording()
-
+                        self.writeTop("Voice")
+			#v = SpeechRecognition()
+			#result = v.startrecording()
+                        result = 1
+                        time.sleep(5)
 		elif game_name == "wirecutting":
+                        self.writeTop("Wirecutting")
 			while result == 0:
 				w = WireCutting()
 				result = w.startGame()

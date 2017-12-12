@@ -27,7 +27,7 @@ class DetectShapes:
 			fullyDetected = False
 			if ret:
 				resized = imutils.resize(frame, width=300)
-				ycb = cv2.cvtColor(resized, cv2.COLOR_BGR2YCrCb)
+				ycb = cv2.cvtColor(resized, cv2.COLOR_BGR2YCR_CB)
 				ratio = frame.shape[0] / float(resized.shape[0])
 				gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
 				blurred = cv2.GaussianBlur(gray, (5, 5), 0)
