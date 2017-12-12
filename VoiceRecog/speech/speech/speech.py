@@ -14,8 +14,8 @@ import sphinxbase
 class SpeechRecognition:
     # Parameters for pocketsphinx
     def __init__(self):
-        self.LMD   = "/home/root/led-speech-edison/lm/3867.lm"
-        self.DICTD = "/home/root/led-speech-edison/lm/3867.dic"
+        self.LMD   = "/home/root/BombProject/VoiceRecog/speech/speech/lm/3867.lm"
+        self.DICTD = "/home/root/BombProject/VoiceRecog/speech/speech/lm/3867.dic"
         self.CHUNK = 1024
         self.FORMAT = pyaudio.paInt16
         self.CHANNELS = 1
