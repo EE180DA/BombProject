@@ -18,50 +18,50 @@ class WireCutting:
 			print "Cut the RED + RED wire!"
 			while True:
 				self.getValues()
-				if self.a0.read() > 180:
+				if self.a0.read() < 160:
 					print "SUCCESS"
 					return(1)
-				elif self.a1.read() > 180 or self.a2.read() > 180 or self.a3.read() > 180 or self.a4.read() > 180:
+				elif self.a1.read() < 160 or self.a2.read() < 160 or self.a3.read() < 160 or self.a4.read() < 160:
 					print "FAILURE"
 					return(0)
 		elif RANDGEN == 1:
 			print "Cut the BROWN + GREEN wire!"
 			while True:
 				self.getValues()
-				if self.a1.read() > 180:
+				if self.a1.read() < 160:
 					print "SUCCESS"
 					return(1)
-				elif self.a0.read() > 180 or self.a2.read() > 180 or self.a3.read() > 180 or self.a4.read() > 180:
+				elif self.a0.read() < 160 or self.a2.read() < 160 or self.a3.read() < 160 or self.a4.read() < 160:
 					print "FAILURE"
 					return(0)
 		elif RANDGEN == 2:
 			print "Cut the BLACK + BLACK wire!"
 			while True:
 				self.getValues()
-				if self.a2.read() > 180:
+				if self.a2.read() < 160:
 					print "SUCCESS"
 					return(1)
-				elif self.a1.read() > 180 or self.a0.read() > 180 or self.a3.read() > 180 or self.a4.read() > 180:
+				elif self.a1.read() < 160 or self.a0.read() < 160 or self.a3.read() < 160 or self.a4.read() < 160:
 					print "FAILURE"
 					return(0)
 		elif RANDGEN == 3:
 			print "Cut the BROWN + BLUE wire!"
 			while True:
 				self.getValues()
-				if self.a3.read() > 180:
+				if self.a3.read() < 160:
 					print "SUCCESS"
 					return(1)
-				elif self.a1.read() > 180 or self.a2.read() > 180 or self.a0.read() > 180 or self.a4.read() > 180:
+				elif self.a1.read() < 160 or self.a2.read() < 160 or self.a0.read() < 160 or self.a4.read() < 160:
 					print "FAILURE"
 					return(0)
 		elif RANDGEN == 4:
 			print "Cut the RED + WHITE wire!"
 			while True:
 				self.getValues()
-				if self.a4.read() > 180:
+				if self.a4.read() < 160:
 					print "SUCCESS"
 					return(1)
-				elif self.a1.read() > 180 or self.a2.read() > 180 or self.a3.read() > 180 or self.a0.read() > 180:
+				elif self.a1.read() < 160 or self.a2.read() < 160 or self.a3.read() < 160 or self.a0.read() < 160:
 					print "FAILURE"
 					return(0)
 
