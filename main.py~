@@ -10,7 +10,7 @@ import webbrowser
 from WireCutting.WireCutting import WireCutting
 #from VoiceRecog.speech.speech.speech import SpeechRecognition
 from Display.screen import Display
-
+from Server.server import Server
 class GameInstance:
 
 	def __init__(self, diff = -1):
@@ -18,7 +18,7 @@ class GameInstance:
 			diff = raw_input("Please choose a difficulty level (1-3): ")
 			diff = int(diff)
 		self.difficulty = diff
-		self.time = 240/self.difficulty #time left in seconds
+		self.time = 18/self.difficulty #time left in seconds
 		self.timeleft = self.time+3
 		self.errorPenalty = 10*self.difficulty
 		self.complete = False
@@ -34,6 +34,7 @@ class GameInstance:
 		self.lcd = Display()
                 self.writeTop("")
                 self.writeBot("")
+                self.server = Server()
 
 	def kill(self):
 		del self
@@ -66,7 +67,9 @@ class GameInstance:
 			time.sleep(1)
 			if(self.timeleft <= 0):
 				print "BOOM!"
-				self.writeTop("BOOM!")
+				self.writeTop("BOOOOM!!")
+                                self.writeBot("")
+                                self.lcd.flash(5)
 				webbrowser.open("https://www.youtube.com/watch?v=wdXU4R8JBe4", new=0, autoraise=True)
 				thread.interrupt_main()
 				sys.exit(0)
@@ -161,11 +164,9 @@ class GameInstance:
 		result = 0
 		if game_name == "images":
                         self.writeTop("Images")
-			#d = DetectShapes()
-			#print "Draw a " + d.get_target_color() + ' ' + d.get_target_shape() + "!"
-			#result = d.start_minigame()
-                        result = 1
-                        time.sleep(5)
+			d = DetectShapes()
+			print "Draw a " + d.get_target_color() + ' ' + d.get_target_shape() + "!"
+			result = d.start_minigame()
 		elif game_name == "buttons":
                         self.writeTop("Buttons")
 			result = 1
@@ -173,8 +174,14 @@ class GameInstance:
 
 		elif game_name == "gestures":
                         self.writeTop("Gestures")
-			result = 1
-			time.sleep(5)
+                        while result == 0:
+            	            result = self.server.start_server("1234")
+			    if result == 0:
+					self.time -= self.errorPenalty
+					self.writeTop("Error")
+					print "Error!"
+					time.sleep(1)
+					self.writeTop("Gestures")
 
 		elif game_name == "voice":
                         self.writeTop("Voice")
@@ -184,13 +191,13 @@ class GameInstance:
                         time.sleep(5)
 		elif game_name == "wirecutting":
                         self.writeTop("Wirecutting")
-			while result == 0:
-				w = WireCutting()
-				result = w.startGame()
-				if result == 0:
-					self.time -= self.errorPenalty
-					print "Error! Reconnect that wire within 5 seconds!"
-					time.sleep(5)
+			#while result == 0:
+				#w = WireCutting()
+				#result = w.startGame()
+				#if result == 0:
+				#	self.time -= self.errorPenalty
+				#	print "Error! Reconnect that wire within 5 seconds!"
+			time.sleep(5)
 
 		return result	
 

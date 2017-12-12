@@ -99,7 +99,7 @@ class ColorDetector:
 		# if greenmask[0,0] == 255:
 		# 	print("It's green!")
 		# 	color = "green"
-		print color
+		#print color
 		return color
 
  

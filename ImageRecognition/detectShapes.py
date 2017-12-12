@@ -65,6 +65,7 @@ class DetectShapes:
 					cv2.putText(resized, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 			 		cv2.putText(resized, color, (cX, cY-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 					# show the output image
+                                        print color + " " + shape
 					if shape == "triangle" and color == "black":
 						detected = True
 						# print "detected"
@@ -77,13 +78,13 @@ class DetectShapes:
 					fullyDetected = True
 				
 
-				cv2.imshow('frame', resized)
+				#cv2.imshow('frame', resized)
 				if fullyDetected:
 					break
 				if cv2.waitKey(1) & 0xFF == ord('q'):
 					break
 		cap.release()
-		cv2.destroyAllWindows()
+		#cv2.destroyAllWindows()
 		if fullyDetected:
 			return 1
 		else:
