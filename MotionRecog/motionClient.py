@@ -1,4 +1,5 @@
 import socket
+import time
 from Response import Response
 
 class Client:
@@ -38,7 +39,7 @@ if __name__ == '__main__':
 			exit()
 		except:
 			print('Didnt connect')
-			time.delay(1)
+			time.sleep(1)
 
 	while True: 	
 		if c == 1:
