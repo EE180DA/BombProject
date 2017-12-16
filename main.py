@@ -8,7 +8,7 @@ import sys
 import os
 import webbrowser
 from WireCutting.WireCutting import WireCutting
-#from VoiceRecog.speech.speech.speech import SpeechRecognition
+from VoiceRecog.speech import SpeechRecognition
 from Display.screen import Display
 from Server.server import Server
 class GameInstance:
@@ -34,8 +34,8 @@ class GameInstance:
 		self.lcd = Display()
         		self.writeTop("")
                 self.writeBot("")
-        self.server_gesture = Server(0)
-        self.server_wire = Server(1)
+       			self.server_gesture = Server(0)
+        		self.server_wire = Server(1)
 
 	def kill(self):
 		del self
