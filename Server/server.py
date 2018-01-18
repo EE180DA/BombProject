@@ -3,9 +3,10 @@ import threading
 
 class Server:
     #parameters for the server
-    def __init__(self):
+    def __init__(self, server_num):
         self.bind_ip = '192.168.42.1'
-        self.bind_port = 4999
+        self.port_numbers = [4999, 3999]
+        self.bind_port = self.port_numbers[server_num]
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind((self.bind_ip, self.bind_port))
@@ -33,7 +34,8 @@ class Server:
             
 
 if __name__ == '__main__':
-    g = Server()
-    code = "1234"
+    server_number = 0
+    g = Server(server_number)
+    code = "ReRe"
     c = g.start_server(code)
     print c
