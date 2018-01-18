@@ -78,13 +78,13 @@ class DetectShapes:
 					fullyDetected = True
 				
 
-				#cv2.imshow('frame', resized)
+				cv2.imshow('frame', resized)
 				if fullyDetected:
 					break
 				if cv2.waitKey(1) & 0xFF == ord('q'):
 					break
 		cap.release()
-		#cv2.destroyAllWindows()
+		cv2.destroyAllWindows()
 		if fullyDetected:
 			return 1
 		else:
