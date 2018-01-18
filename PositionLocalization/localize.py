@@ -16,13 +16,13 @@ class localize:
 		pass
 
 	def find_distance(self):
-		cap = cv2.VideoCapture(0)
+		cap = cv2.VideoCapture(2)
 		detectCount = 0
 
-		green_lower_range = np.array([0, 67, 30], dtype=np.uint8)
-		green_upper_range = np.array([167, 118, 145], dtype=np.uint8)
+		green_lower_range = np.array([0, 40, 30], dtype=np.uint8)
+		green_upper_range = np.array([223, 117, 155], dtype=np.uint8)
 
-		red_lower_range = np.array([45, 188, 75], dtype=np.uint8)
+		red_lower_range = np.array([25, 155, 75], dtype=np.uint8)
 		red_upper_range = np.array([160, 255, 124], dtype=np.uint8)
 
 		while(True):
@@ -30,6 +30,8 @@ class localize:
 				cap.open()
 			ret, frame = cap.read()
 			if ret:
+				r_distance = 100
+				g_distance = 100
 				ycb = cv2.cvtColor(frame, cv2.COLOR_BGR2YCR_CB)
 				greenmask = cv2.inRange(ycb, green_lower_range, green_upper_range)
 				gray = cv2.GaussianBlur(greenmask, (5, 5), 0)
@@ -64,12 +66,14 @@ class localize:
 					green_area = cv2.contourArea(biggest_green)
 					# green_radius = int(np.sqrt(green_area/3.14))
 					x,y,w,h = cv2.boundingRect(biggest_green)
-					green_radius = max(w,h)
+					#((r_x, r_y), r_radius) = cv2.minEnclosingCircle(biggest_red)
+					green_radius = max(w,h)/2
 					M = cv2.moments(biggest_green)
 					cX = int(M["m10"] / M["m00"])
 					cY = int(M["m01"] / M["m00"])
-					cv2.circle(frame, (cX, cY), green_radius/4, (0, 255, 0), -1)
-					print " Green Area: " + str(green_area) + "  Green Radius: " + str(green_radius)
+					g_distance = 85.461*np.power(green_radius, -1.031)
+					#cv2.circle(frame, (cX, cY), green_radius/4, (0, 255, 0), -1)
+					print " Green Area: " + str(green_area) + "  Green Radius: " + str(green_radius) + "  Distance: " + str(g_distance)
 				redmask = cv2.inRange(ycb, red_lower_range, red_upper_range)
 				gray = cv2.GaussianBlur(redmask, (5, 5), 0)
 				gray = cv2.erode(gray, None, iterations=1)
@@ -98,19 +102,27 @@ class localize:
 							biggest_red = c
 				if biggest_red.all():
 						# red_radius = int(np.sqrt(cv2.contourArea(biggest_red)/3.14))
+						#(r_x, r_y), r_radius = cv2.minEnclosingCircle(biggest_red)
 						red_area = int(cv2.contourArea(biggest_red))
 						M = cv2.moments(biggest_red)
 						x,y,w,h = cv2.boundingRect(biggest_red)
-						red_radius = max(w, h)
+						red_radius = max(w, h)/2
+						r_distance = 85.461*np.power(red_radius, -1.031)
 						cX = int(M["m10"] / M["m00"])
 						cY = int(M["m01"] / M["m00"])
 						cv2.circle(frame, (cX, cY), red_radius/4, (0, 0, 255), -1)
-						print " Red Area: " + str(red_area) + "  Red Radius: " + str(red_radius) 
+						#cv2.circle(frame, (int(r_x), int(r_y)), int(r_radius), (0, 0, 255), -1)
+						print " Red Area: " + str(red_area) + "  Red Radius: " + str(red_radius)  + "  Distance: " + str(r_distance)
 				# cv2.imshow('edged',edged)
 				# cv2.imshow('gray',gray)
 				
 				cv2.imshow('Objects Detected',frame)
-				cv2.imshow('red', green_edged)
+				cv2.imshow('green', green_edged)
+				cv2.imshow('red', red_edged)
+				if r_distance < 0.7:
+					return "red"
+				elif g_distance < 0.7:
+					return "green"
 				if cv2.waitKey(1) & 0xFF == ord('q'):
 					break
 		cap.release()
@@ -119,4 +131,5 @@ class localize:
 
 if __name__ == '__main__':
 	d = localize()
-	d.find_distance()
+	detected = d.find_distance()
+	print "Detected: " + detected

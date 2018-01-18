@@ -14,7 +14,7 @@ def onTrackbarActivity(x):
 if __name__ == '__main__' :
 
     # Get the filename from the command line 
-    files = ['greenball.jpg']
+    files = ['actualgreen.jpg']
     files.sort()
     # load the image 
     original = cv2.imread(files[0])
