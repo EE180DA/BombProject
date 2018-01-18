@@ -1,4 +1,3 @@
-<<<<<<< HEAD:VoiceRecog/speech.py
 import collections
 import mraa
 import os
@@ -220,4 +219,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print "Keyboard interrupt received. Cleaning up..."
         
->>>>>>> f03d66580898aa50ce8bebd32c7097066ad0429a:VoiceRecog/speech/speech/speech.py
+
