@@ -72,7 +72,8 @@ class Response(object):
 		        self.bcount=0
 		        self.idle1=0
 		        self.idle2=0
-		        return 1
+		        time.sleep(1)
+		        #return 1
 		    if gyro_z > self.g_threshold:
 		        #print('Right')
 		        if self.idle3 < 20:
@@ -99,7 +100,8 @@ class Response(object):
 		        self.lcount=0
 		        self.idle3=0
 		        self.idle4=0
-		        return 2
+		        time.sleep(1)
+		        #return 2
 		    if accel_z > 1000:
 		        #print('Up')
 		        self.tiltidle=0
@@ -123,19 +125,20 @@ class Response(object):
 		        self.idle6+=1
 		        if self.tiltidle>0:
 		        	self.tiltidle+=1
-		        # When a tilt is detected, return 3
 		        if self.tiltidle>20:
-		        	print('Tilted. Pass the question.')
+		        	print('Tilted')
 		        	self.tiltidle=0
-		        	return 3
+		        	time.sleep(1)
+		        	#return 3
 		    if self.ucount>self.shakecount and self.dcount>self.shakecount:
-		        # When a hint is detected, return 4
+		        # When a hint is detected, return 3
 		        print('Hint Complete')
 		        self.ucount=0
 		        self.dcount=0
 		        self.idle5=0
 		        self.idle6=0
-		        return 4
+		        time.sleep(1)
+		        #return 4
 		    time.sleep(0.05)
 
 if __name__ == '__main__':
