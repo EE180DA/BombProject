@@ -3,70 +3,44 @@ import time
 
 class Buttons:
 	def __init__(self):
+		d0 = mraa.Gpio(0)
+		d1 = mraa.Gpio(1)
 		d2 = mraa.Gpio(2)
-		d3 = mraa.Gpio(4)
-		d4 = mraa.Gpio(7)
-		d5 = mraa.Gpio(8)
-		d6 = mraa.Gpio(12)
-		#d2.dir(mraa.DIR_IN)
-		#d3.dir(mraa.DIR_IN)
-		#d4.dir(mraa.DIR_IN)
-		#d5.dir(mraa.DIR_IN)
-		#d6.dir(mraa.DIR_IN)
+		d3 = mraa.Gpio(3)
+		d4 = mraa.Gpio(4)
+		d5 = mraa.Gpio(5)
+		d6 = mraa.Gpio(6)
+		d7 = mraa.Gpio(7)
 
 	def getValues(self):
+		self.d0 = mraa.Gpio(0)
+		self.d1 = mraa.Gpio(1)
 		self.d2 = mraa.Gpio(2)
-		self.d3 = mraa.Gpio(4)
-		self.d4 = mraa.Gpio(7)
-		self.d5 = mraa.Gpio(8)
-		self.d6 = mraa.Gpio(12)
-		print "D2: ", self.d2.read()
-		print "D3: ", self.d3.read()
-		print "D4: ", self.d4.read()
-		print "D5: ", self.d5.read()
-		print "D6: ", self.d6.read()
+		self.d3 = mraa.Gpio(3)
+		self.d4 = mraa.Gpio(4)
+		self.d5 = mraa.Gpio(5)
+		self.d6 = mraa.Gpio(6)
+		self.d7 = mraa.Gpio(7)
 
 	def startGame(self):
-		while True:
-			self.getValues()
-			#FIRST button press
-			if self.d2.read() == 1:
-				while True:
-					self.getValues()
-					#SECOND button press
-					if self.d3.read() == 1:
-						while True:
-							self.getValues()
-							#THIRD button press
-							if self.d4.read() == 1:
-								while True:
-									self.getValues()
-									#FOURTH button press
-									if self.d5.read() == 1:
-										while True:
-											self.getValues()
-											#FIFTH button press
-											if self.d6.read() == 1:
-												print "SUCCESS!"
-												return(1)
-											elif self.d2.read() == 1 or self.d3.read() == 1 or self.d4.read() == 1 or self.d5.read() == 1:
-												print "FALIURE!"
-												return(0)
-									elif self.d2.read() == 1 or self.d3.read() == 1 or self.d4.read() == 1 or self.d6.read() == 1:
-										print "FAILURE!"
-										return(0)
-							elif self.d2.read() == 1 or self.d3.read() == 1 or self.d5.read() == 1 or self.d6.read() == 1:
-								print "FAILURE!"
-								return(0)
-					elif self.d2.read() == 1 or self.d6.read() == 1 or self.d4.read() == 1 or self.d5.read() == 1:
-						print "FAILURE!"
-						return(0)
-			elif self.d6.read() == 1 or self.d3.read() == 1 or self.d4.read() == 1 or self.d5.read() == 1:
-				print "FAILURE!"
-				return(0)
+		buttonOrder = [0, 1, 2, 3, 4, 5, 6, 7]
+		for i in range (0,8):
+			flag = 0
+			while flag == 0:
+				if mraa.Gpio(buttonOrder[i]).read() == 1:
+					print "Next"
+					time.sleep(0.5)
+					flag = 1
+				elif mraa.Gpio(buttonOrder[(i+9)%8]).read() == 1 or mraa.Gpio(buttonOrder[(i+10)%8]).read() == 1 or mraa.Gpio(buttonOrder[(i+11)%8]).read() == 1 \
+					or mraa.Gpio(buttonOrder[(i+12)%8]).read() == 1 or mraa.Gpio(buttonOrder[(i+13)%8]).read() == 1 or mraa.Gpio(buttonOrder[(i+14)%8]).read() == 1 \
+					or mraa.Gpio(buttonOrder[(i+15)%8]).read() == 1:
+					print "Boom!"
+					time.sleep(0.5)
+					flag = 1
+					return (0)
+		print "Success"
+		return (1)
 
 if __name__ == '__main__':
 	g = Buttons()
-	while True:
-		g.getValues()
-		time.sleep(0.4)
+	g. startGame()
