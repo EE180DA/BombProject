@@ -5,9 +5,10 @@ import numpy as np
 import argparse
 import imutils
 import cv2
+import time
 
 
-class localize:
+class Localize:
 
 	def midpoint(ptA, ptB):
 		return ((ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5)
@@ -15,7 +16,8 @@ class localize:
 	def __init__ (self):
 		pass
 
-	def find_distance(self):
+	def find(self, time_left):
+		start_time = time.time()
 		cap = cv2.VideoCapture(2)
 		detectCount = 0
 
@@ -25,7 +27,7 @@ class localize:
 		red_lower_range = np.array([25, 155, 75], dtype=np.uint8)
 		red_upper_range = np.array([160, 255, 124], dtype=np.uint8)
 
-		while(True):
+		while(time.time()-start_time < time_left):
 			if not cap.isOpened():
 				cap.open()
 			ret, frame = cap.read()
@@ -125,11 +127,13 @@ class localize:
 					return "green"
 				if cv2.waitKey(1) & 0xFF == ord('q'):
 					break
+
 		cap.release()
 		cv2.destroyAllWindows()
+		return "boom"
 
 
 if __name__ == '__main__':
-	d = localize()
-	detected = d.find_distance()
+	d = Localize()
+	detected = d.find(10)
 	print "Detected: " + detected

@@ -11,6 +11,8 @@ from WireCutting.WireCutting import WireCutting
 from VoiceRecog.speech import SpeechRecognition
 from Display.screen import Display
 from Server.server import Server
+from PositionLocalization.localize import Localize
+
 class GameInstance:
 
 	def __init__(self, diff = -1):
@@ -23,6 +25,7 @@ class GameInstance:
 		self.errorPenalty = 10*self.difficulty
 		self.complete = False
 		self.minigames = ['buttons', 'images', 'gestures', 'voice']
+		self.move_time = 120/self.difficulty
 		shuffle(self.minigames)
 		self.minigames.append('wirecutting')
 		self.thread = threading.Thread(target = self.timer, args = ())
@@ -58,6 +61,15 @@ class GameInstance:
 		self.writeBot("\nTime left: " + str(int(self.timeleft)))
 		return int(self.timeleft)
 
+	def explode(self):
+		print "BOOM!"
+		self.writeTop("BOOOOM!!")
+		self.writeBot("")
+		self.lcd.flash(5)
+		webbrowser.open("https://www.youtube.com/watch?v=wdXU4R8JBe4", new=0, autoraise=True)
+		thread.interrupt_main()
+		sys.exit(0)
+
 	def timer(self):
 		startTime = int(time.time())
 		oldtimeleft = self.timeleft
@@ -67,14 +79,15 @@ class GameInstance:
 			self.get_time()
 			time.sleep(1)
 			if(self.timeleft <= 0):
-				print "BOOM!"
-				self.writeTop("BOOOOM!!")
-                                self.writeBot("")
-                                self.lcd.flash(5)
-				webbrowser.open("https://www.youtube.com/watch?v=wdXU4R8JBe4", new=0, autoraise=True)
-				thread.interrupt_main()
-				sys.exit(0)
+				self.explode()
 
+	def move(self, color):
+		l = Localize()
+		result = l.find(10)
+		if result == "boom":
+			self.explode
+		elif result == color:
+			print "Passed"		
 
 	def intro(self):
 		print "Welcome to the bomb defusal training module!"
@@ -104,6 +117,17 @@ class GameInstance:
 		self.intro()
 		currGame = 1
 		self.thread.start()
+		self.move(red)
+		print "Move to first defusal area!"
+		result = l.find(10)
+		if result == "boom":
+			print "BOOM"
+                        # self.writeTop("BOOOOM!!")
+                        # self.writeBot("")
+                        # self.lcd.flash(5)
+        elif result == "red":
+        	print "Passed"
+
 		while(not self.complete and self.timeleft > 0):
 				#Also write new time to LCD screen
 
