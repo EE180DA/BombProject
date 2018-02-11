@@ -3,11 +3,14 @@ from upm import pyupm_buzzer as upmBuzzer
 
 def main():
     # Create the buzzer object using GPIO pin 5
+    class Buzzer():
+        def __init__ (self):
+        pass
+
+
     buzzer = upmBuzzer.Buzzer(5)
 
-    chords = [upmBuzzer.BUZZER_DO, upmBuzzer.BUZZER_RE, upmBuzzer.BUZZER_MI,
-              upmBuzzer.BUZZER_FA, upmBuzzer.BUZZER_SOL, upmBuzzer.BUZZER_LA,
-              upmBuzzer.BUZZER_SI];
+    chords = [1000];
 
     # Print sensor name
     print(buzzer.name())
