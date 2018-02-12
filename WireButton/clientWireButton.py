@@ -14,7 +14,10 @@ class Client:
 		while True:
 			received = self.client.recv(4096)
 			print received
-			# Codewords for each wire
+                        if received == "":
+                            time.sleep(1)
+                            continue
+			# Codewords for minigames
 			if received == "B1":
 				return(0)
 			elif received == "B2":
@@ -33,11 +36,7 @@ class Client:
 		self.client.send(message)
 		print "Sent:", message
 
-	def endClient(self, output):
-		if output == 0:
-			self.client.send('Fail')
-		elif output == 1:
-			self.client.send('Success')
+	def endClient(self):
 		self.client.close()
 
 if __name__ == '__main__':
@@ -55,7 +54,7 @@ if __name__ == '__main__':
 	if c >= 0 and c < 3:
 		b = Buttons(c)
 		print "Starting Buttons game Difficulty:" , c
-		response=b.startGame()
+		response=1#b.startGame()
 		if response == 1:
 			g.sendMessage("Success")
 		else:
@@ -65,13 +64,12 @@ if __name__ == '__main__':
 	if c >= 3 and c < 6:
 		w = WireCutting()
 		print "Starting Wires game Difficulty:" , c
-		response=w.startGame(c)
+		response=1#w.startGame(c)
 		if response == 1:
-			result = 1
-			g.endClient(result)
+			g.sendMessage("Success")
 		else:
-			result = 0
+			g.sendMessage("Failure")
 	elif c >= 6:
 		print("Client Error")
 		result = 0
-	g.endClient(result)
+	g.endClient()
