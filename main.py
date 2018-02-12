@@ -12,7 +12,7 @@ from VoiceRecog.speech import SpeechRecognition
 from Display.screen import Display
 from Server.server import Server
 from PositionLocalization.localize import Localize
-
+from Buzzer.
 class GameInstance:
 
 	def __init__(self, diff = -1):
@@ -29,6 +29,7 @@ class GameInstance:
 		shuffle(self.minigames)
 		self.minigames.append('wirecutting')
 		self.thread = threading.Thread(target = self.timer, args = ())
+		self.server_thread = threading.Thread(target = self.timer, kwargs={'code' : "1234"})
 		self.thread.daemon = True
 		self.topText = ""
 		self.prevTopText = ""
@@ -70,6 +71,9 @@ class GameInstance:
 		thread.interrupt_main()
 		sys.exit(0)
 
+	def wire_server_code(self, code = None):
+		self.server_wire.start_server(code)
+
 	def timer(self):
 		startTime = int(time.time())
 		oldtimeleft = self.timeleft
@@ -82,6 +86,7 @@ class GameInstance:
 				self.explode()
 
 	def move(self, color):
+		print "Move to defusal area!"
 		l = Localize()
 		result = l.find(10)
 		if result == "boom":
@@ -117,69 +122,61 @@ class GameInstance:
 		self.intro()
 		currGame = 1
 		self.thread.start()
-		self.move(red)
-		print "Move to first defusal area!"
-		result = l.find(10)
-		if result == "boom":
-			print "BOOM"
-                        # self.writeTop("BOOOOM!!")
-                        # self.writeBot("")
-                        # self.lcd.flash(5)
-        elif result == "red":
-        	print "Passed"
+		self.server_thread.start()
+		# self.move(red)
+		
+		# while(not self.complete and self.timeleft > 0):
+		# 		#Also write new time to LCD screen
 
-		while(not self.complete and self.timeleft > 0):
-				#Also write new time to LCD screen
-
-			print "\nTime to play: " + self.minigames[0]
-			result = self.start_minigame(self.minigames[0])
-			if result == 1:
-				print "Congratulations you passed the first level"
+		# 	print "\nTime to play: " + self.minigames[0]
+		# 	result = self.start_minigame(self.minigames[0])
+		# 	if result == 1:
+		# 		print "Congratulations you passed the first level"
                                 
-                                self.writeTop("Passed")
-                                time.sleep(0.5)
+  #                               self.writeTop("Passed")
+  #                               time.sleep(0.5)
 
-			print "\nTime to play: " + self.minigames[1]
-			result = self.start_minigame(self.minigames[1])
-			if result == 1:
-				print "Congratulations you passed the second level"	
+		# 	print "\nTime to play: " + self.minigames[1]
+		# 	result = self.start_minigame(self.minigames[1])
+		# 	if result == 1:
+		# 		print "Congratulations you passed the second level"	
                                 
-                                self.writeTop("Passed")
-                                time.sleep(0.5)
+  #                               self.writeTop("Passed")
+  #                               time.sleep(0.5)
 
-			print "\nTime to play: " + self.minigames[2]
-			result = self.start_minigame(self.minigames[2])
-			if result == 1:
-				print "Congratulations you passed the third level"
+		# 	print "\nTime to play: " + self.minigames[2]
+		# 	result = self.start_minigame(self.minigames[2])
+		# 	if result == 1:
+		# 		print "Congratulations you passed the third level"
                                 
-                                self.writeTop("Passed")
-                                time.sleep(0.5)
+  #                               self.writeTop("Passed")
+  #                               time.sleep(0.5)
 
-			print "\nTime to play: " + self.minigames[3]
-			result = self.start_minigame(self.minigames[3])
-			if result == 1:
-				print "Congratulations you passed the fourth level"
+		# 	print "\nTime to play: " + self.minigames[3]
+		# 	result = self.start_minigame(self.minigames[3])
+		# 	if result == 1:
+		# 		print "Congratulations you passed the fourth level"
                                 
-                                self.writeTop("Passed")
-                                time.sleep(0.5)
-			print "\nTime to play: " + self.minigames[4]
-			result = self.start_minigame(self.minigames[4])
-			if result == 1:
-				print "Congratulations you passed the last level"                               
-                                self.writeTop("Passed")
-                                time.sleep(0.5)
-			self.complete = True
+  #                               self.writeTop("Passed")
+  #                               time.sleep(0.5)
+		# 	print "\nTime to play: " + self.minigames[4]
+		# 	result = self.start_minigame(self.minigames[4])
+		# 	if result == 1:
+		# 		print "Congratulations you passed the last level"                               
+  #                               self.writeTop("Passed")
+  #                               time.sleep(0.5)
+		# 	self.complete = True
 
 
-		if self.timeleft == 0:
-			print "BOOM"
-                        self.writeTop("BOOOOM!!")
-                        self.writeBot("")
-                        self.lcd.flash(5)
-		else:
-			print "Congratulations you've defused the bomb"
-                        self.writeTop("Congratulations!")
-                        self.lcd.flash(5)
+		# if self.timeleft == 0:
+		# 	print "BOOM"
+  #                       self.writeTop("BOOOOM!!")
+  #                       self.writeBot("")
+  #                       self.lcd.flash(5)
+		# else:
+		# 	print "Congratulations you've defused the bomb"
+  #                       self.writeTop("Congratulations!")
+  #                       self.lcd.flash(5)
 
 	def get_minigames(self):
 		print '[%s]'%', '.join(map(str, self.minigames))
