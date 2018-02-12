@@ -5,7 +5,7 @@ import IMU
 
 class Response(object):
 	def __init__(self): 
-		self.g_threshold = 3000
+		self.g_threshold = 2500
 		self.idle1 = 0
 		self.idle2 = 0
 		self.idle3 = 0
@@ -19,9 +19,9 @@ class Response(object):
 		self.fcount = 0
 		self.ucount = 0
 		self.dcount = 0
-		self.nodcount = 4
-		self.shakecount = 4
-		self.hintcount = 4
+		self.nodcount = 3
+		self.shakecount = 3
+		self.hintcount = 3
 		self.imu = IMU.IMU()
 	def get(self):
 		while True:
