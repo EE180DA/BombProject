@@ -11,23 +11,27 @@ class Client:
 
 	def startClient(self):
 		# connect the client
-		received = self.client.recv(4096)
-		# Codewords for each wire
-		if received == "B1":
-			return(0)
-		elif received == "B2":
-			return(1)
-		elif received == "B3":
-			return(2)
-		elif received == "W1":
-			return(3)
-		elif received == "W2":
-			return(4)
-		elif received == "W3":
-			return(5)
+		while True:
+			received = self.client.recv(4096)
+			print received
+			# Codewords for each wire
+			if received == "B1":
+				return(0)
+			elif received == "B2":
+				return(1)
+			elif received == "B3":
+				return(2)
+			elif received == "W1":
+				return(3)
+			elif received == "W2":
+				return(4)
+			elif received == "W3":
+				return(5)
+		
 
-		else:
-			return(6)
+	def sendMessage(self, message):
+		self.client.send(message)
+		print "Sent:", message
 
 	def endClient(self, output):
 		if output == 0:
@@ -50,24 +54,24 @@ if __name__ == '__main__':
 
 	if c >= 0 and c < 3:
 		b = Buttons(c)
+		print "Starting Buttons game Difficulty:" , c
 		response=b.startGame()
 		if response == 1:
-			self.client.send('Success')
-			break
+			g.sendMessage("Success")
 		else:
-			self.client.send('Failure')
+			g.sendMessage("Failure")
 
 	c = g.startClient()
 	if c >= 3 and c < 6:
 		w = WireCutting()
+		print "Starting Wires game Difficulty:" , c
 		response=w.startGame(c)
 		if response == 1:
 			result = 1
 			g.endClient(result)
-			break
 		else:
 			result = 0
-	elif c >= 6
-		print('Client Error')
+	elif c >= 6:
+		print("Client Error")
 		result = 0
 	g.endClient(result)
