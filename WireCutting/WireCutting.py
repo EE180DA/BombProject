@@ -1,5 +1,6 @@
 import mraa
 import random
+import time
 
 class WireCutting:
 	def __init__(self):
@@ -12,6 +13,7 @@ class WireCutting:
 		self.a2 = mraa.Aio(2)
 		self.a3 = mraa.Aio(3)
 		self.a4 = mraa.Aio(4)
+
 
 	def startGame(self, RANDGEN):
 		if RANDGEN == 0:
@@ -67,12 +69,13 @@ class WireCutting:
 
 if __name__ == '__main__':
 	g = WireCutting()
-	g.startGame(1)
-	#t = WireCutting()
-	#while True:
-		#t.getValues()
-		#print t.a0.read()
-		#print t.a1.read()
-		#print t.a2.read()
-		#print t.a3.read()
-		#print t.a4.read()
+	#g.startGame(1)
+
+	t = WireCutting()
+	while True:
+		t.getValues()
+		print t.a0.read()
+		print t.a1.read()
+		print t.a2.read()
+		print t.a3.read()
+		print t.a4.read()

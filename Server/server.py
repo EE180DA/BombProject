@@ -16,7 +16,7 @@ class Server:
     #Sends a message to the client to indicate the start of a game, then received the result of that game    
     def handle_client_connection(self, client_socket, game_code):
         client_socket.send(game_code)
-        request = client_socket.recv(1024)
+        self.request = client_socket.recv(1024)
         if request == "Fail":
             client_socket.close() 
             return(0)

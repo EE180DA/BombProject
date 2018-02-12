@@ -22,9 +22,9 @@ class Buttons:
 	#Sets correct button sequence based on the difficulty -
 	# -and randomly generated stage sequence
 	def setCorrectSequence(self, diff, stage_seq):
-		if diff == 1:
+		if diff == 0: #Easy
 			self.CorrectSequence = [1, 5, 3, 0, 4, 6, 7, 2]
-		elif diff == 2:
+		elif diff == 1: #Medium
 			if stage_seq == 1: #Stage Display numbers 3, 1, 4
 				self.CorrectSequence = [1, 2, 0, 7, 8, 8, 8, 8]
 				self.ScreenDisplay = [3, 1, 4, 4, 8, 8, 8, 8]
@@ -37,7 +37,7 @@ class Buttons:
 			elif stage_seq == 4: #Stage Display numbers 4, 3, 2
 				self.CorrectSequence = [0, 1, 3, 5, 8, 8, 8, 8]
 				self.ScreenDisplay = [4, 3, 2, 2, 8, 8, 8, 8]
-		elif diff == 3:
+		elif diff == 2: #Hard
 			if stage_seq == 1: #Stage Display numbers 3, 1, 4, 2, 2 CHECKED
 				self.CorrectSequence = [1, 2, 0, 7, 3, 6, 0, 6]
 				self.ScreenDisplay = [3, 1, 4, 4, 8, 8, 8, 8]
@@ -57,7 +57,7 @@ class Buttons:
 			print "Screen display number:", self.ScreenDisplay[i]
 			x = self.CorrectSequence[i]
 			#if medium difficiulty, only 4 button presses are required
-			if self.difficulty == 2:
+			if self.difficulty == 1:
 				if i >= 4:
 					break			
 			while True:
@@ -80,5 +80,5 @@ class Buttons:
 		return (1)
 
 if __name__ == '__main__':
-	g = Buttons(3)
+	g = Buttons(1)
 	g.startGame()

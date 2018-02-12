@@ -1,7 +1,7 @@
 import socket
 import time
-from WireCutting import WireCutting
-
+from WireCutting.WireCutting import WireCutting
+from Buttons.Buttons import Buttons
 class Client:
 	def __init__(self):
 		# create an ipv4 (AF_INET) socket object using the tcp protocol (SOCK_STREAM)
@@ -13,18 +13,21 @@ class Client:
 		# connect the client
 		received = self.client.recv(4096)
 		# Codewords for each wire
-		if received == "ReRe":
+		if received == "B1":
 			return(0)
-		elif received == "BrGr":
+		elif received == "B2":
 			return(1)
-		elif received == "BlBl":
+		elif received == "B3":
 			return(2)
-		elif received == "BrBl":
+		elif received == "W1":
 			return(3)
-		elif received == "ReWh":
+		elif received == "W2":
 			return(4)
-		else:
+		elif received == "W3":
 			return(5)
+
+		else:
+			return(6)
 
 	def endClient(self, output):
 		if output == 0:
@@ -34,7 +37,6 @@ class Client:
 		self.client.close()
 
 if __name__ == '__main__':
-	r = WireCutting()
 	while True:
 		try:
 			g = Client() 
@@ -46,48 +48,26 @@ if __name__ == '__main__':
 			print('Didnt connect')
 			time.sleep(1)
 
-	while True: 	
-		if c == 0:
-			response=r.startGame(c)
-			if response == 1:
-				result = 1
-				g.endClient(result)
-				break
-			else:
-				result = 0
-		elif c == 1:
-			response=r.startGame(c)
-			if response == 1:
-				result = 1
-				g.endClient(result)
-				break
-			else:
-				result = 0
-		elif c == 2:
-			response=r.startGame(c)
-			if response == 1:
-				result = 1
-				g.endClient(result)
-				break
-			else:
-				result = 0
-		elif c == 3:
-			response=r.startGame(c)
-			if response == 1:
-				result = 1
-				g.endClient(result)
-				break
-			else:
-				result = 0
-		elif c == 4:
-			response=r.startGame(c)
-			if response == 1:
-				result = 1
-				g.endClient(result)
-				break
-			else:
-				result = 0
-		elif c == 5:
-			print('Client Error')
+	if c >= 0 and c < 3:
+		b = Buttons(c)
+		response=b.startGame()
+		if response == 1:
+			self.client.send('Success')
+			break
+		else:
+			self.client.send('Failure')
+
+	c = g.startClient()
+	if c >= 3 and c < 6:
+		w = WireCutting()
+		response=w.startGame(c)
+		if response == 1:
+			result = 1
+			g.endClient(result)
+			break
+		else:
 			result = 0
-		g.endClient(result)
+	elif c >= 6
+		print('Client Error')
+		result = 0
+	g.endClient(result)
