@@ -50,6 +50,7 @@ class Buttons:
 			elif stage_seq == 4: #Stage Display numbers 4, 3, 2, 1, 4 CHECKED
 				self.CorrectSequence = [0, 1, 3, 5, 1, 4, 5, 1]
 				self.ScreenDisplay = [4, 3, 2, 2, 1, 1, 4, 4]
+				
 	def startGame(self):
 		i = 0
 		while i < 8:
