@@ -7,10 +7,9 @@ from ImageRecognition.detectShapes import DetectShapes
 import sys
 import os
 import webbrowser
-from WireCutting import WireCutting
 from VoiceRecog.speech import SpeechRecognition
 from Display.screen import Display
-from Server.server import Server
+from Server.server_test import Server
 from PositionLocalization.localize import Localize
 from Buzzer.Buzzer import Buzzer
 class GameInstance:
@@ -29,8 +28,11 @@ class GameInstance:
 		shuffle(self.minigames)
 		self.minigames.append('wirecutting')
 		self.thread = threading.Thread(target = self.timer, args = ())
-		self.server_thread = threading.Thread(target = self.timer, kwargs={'code' : "1234"})
+		self.server_thread1 = threading.Thread(target = self.wire_server_code, args = ())
+                self.server_thread2 = threading.Thread(target = self.gesture_server_code, args = ())
 		self.thread.daemon = True
+                self.server_thread1.daemon = True
+                self.server_thread2.daemon = True
 		self.topText = ""
 		self.prevTopText = ""
 		self.botText = ""
@@ -71,8 +73,10 @@ class GameInstance:
 		thread.interrupt_main()
 		sys.exit(0)
 
-	def wire_server_code(self, code = None):
-		self.server_wire.start_server(code)
+	def wire_server_code(self):
+		self.server_wire.start_server("B1")
+        def gesture_server_code(self):
+            self.server_gesture.start_server("001")
 
 	def timer(self):
 		startTime = int(time.time())
@@ -119,12 +123,17 @@ class GameInstance:
 		self.writeTop("0")
 
 	def start_game(self):
-		self.intro()
+		#self.intro()
+                print "starting"
+                print self.server_wire.get_result()
 		currGame = 1
 		self.thread.start()
-		self.server_thread.start()
+		self.server_thread1.start()
+                self.server_thraed2.start()
                 while True:
-                    print self.server_wire.get_result()
+                    print "wire result = %s" % self.server_wire.get_result()
+                    print "gesture result = %s" % self.server_gesture.get_result()
+                    time.sleep(1)
 		# self.move(red)
 		
 		# while(not self.complete and self.timeleft > 0):

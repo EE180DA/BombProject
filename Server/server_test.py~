@@ -33,7 +33,7 @@ class Server:
     def start_server(self, game_code):
         while True:
             client_sock, address = self.server.accept()
-            print 'Accepted connection from {}:{}'.format(address[0], address[1])
+            print 'Accepted connection from {}:{}'.format(address[0], address[1)
             result = self.handle_client_connection(client_sock, game_code)                              
             return result
             
