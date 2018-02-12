@@ -1,8 +1,9 @@
 import socket
 import threading
-
+import time
 class Server:
     #parameters for the server
+    client_sock = None
     def __init__(self, server_num):
         self.bind_ip = '192.168.42.1'
         self.port_numbers = [4999, 3999]
@@ -20,11 +21,11 @@ class Server:
 
         self.result = client_socket.recv(1024)
 
-        while self.result != "Success":
-            self.result = client_socket.recv(1024)
-            if self.result  == "Success":
-                client_socket.close() 
-                return(1)
+        while True:
+            msg = client_socket.recv(1024)
+            time.sleep(1)
+            if msg != "":
+                self.result = msg
 
     def get_result(self):
         return self.result
@@ -32,12 +33,17 @@ class Server:
     #Starts the server, waits for a connection with a client, receives the result of the game(Fail or Success)
     def start_server(self, game_code):
         while True:
-            client_sock, address = self.server.accept()
+            self.client_sock, address = self.server.accept()
             print 'Accepted connection from {}:{}'.format(address[0], address[1])
-            result = self.handle_client_connection(client_sock, game_code)                              
+            result = self.handle_client_connection(self.client_sock, game_code)                              
             return result
             
 
+    def send(self, message):
+        self.client_sock.send(message)
+
+    def set_result(self, code):
+        self.result =  code
 if __name__ == '__main__':
     server_number = 0
     g = Server(server_number)

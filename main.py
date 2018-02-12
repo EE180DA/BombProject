@@ -130,9 +130,12 @@ class GameInstance:
 		self.thread.start()
 		self.server_thread1.start()
                 self.server_thread2.start()
+
                 while True:
                     print "wire result = %s" % self.server_wire.get_result()
                     print "gesture result = %s" % self.server_gesture.get_result()
+                    if self.server_wire.get_result() == 'Success':
+                        self.server_wire.send("W1")
                     time.sleep(1)
 		# self.move(red)
 		
