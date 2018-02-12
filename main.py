@@ -7,12 +7,11 @@ from ImageRecognition.detectShapes import DetectShapes
 import sys
 import os
 import webbrowser
-from WireCutting.WireCutting import WireCutting
 from VoiceRecog.speech import SpeechRecognition
 from Display.screen import Display
 from Server.server import Server
 from PositionLocalization.localize import Localize
-from Buzzer.
+from Buzzer.Buzzer import Buzzer
 class GameInstance:
 
 	def __init__(self, diff = -1):
@@ -36,10 +35,10 @@ class GameInstance:
 		self.botText = ""
 		self.prevBotText = ""
 		self.lcd = Display()
-        		self.writeTop("")
+        	self.writeTop("")
                 self.writeBot("")
-       			self.server_gesture = Server(0)
-        		self.server_wire = Server(1)
+       		self.server_gesture = Server(0)
+        	self.server_wire = Server(1)
 
 	def kill(self):
 		del self
@@ -123,6 +122,8 @@ class GameInstance:
 		currGame = 1
 		self.thread.start()
 		self.server_thread.start()
+                while True:
+                    print self.server_wire.get_result()
 		# self.move(red)
 		
 		# while(not self.complete and self.timeleft > 0):
@@ -215,7 +216,7 @@ class GameInstance:
 		elif game_name == "wirecutting":
                         self.writeTop("Wirecutting")
                         self.writeBot("Cut Blk-Blk")
-						while result == 0:
+			while result == 0:
             	            result = self.server_wire.start_server("BlBl")
 			    if result == 0:
 					self.time -= self.errorPenalty

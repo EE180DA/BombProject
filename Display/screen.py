@@ -2,23 +2,23 @@ from grove_rgb_lcd import *
 
 class Display:
 	def __init__(self):
-		setRGB(255,255,255)
+            setRGB(255,255,255)
 #write on top row
         def writeTop(self,text):
-		  setText(text,1)
-          return text
+            setText(text,1)
+            return text
 #write on bottom row
         def writeBot(self,text):
-		  setText(text,2)
-          return text
+            setText(text,2)
+            return text
 #flash for x seconds 
         def flash(self,timer,color):
             while timer>0:
-                if (color == "r")
+                if (color == "r"):
                     r=255
                     g=0
                     b=0
-                elif (color == "g")
+                elif (color == "g"):
                     r=0
                     g=255
                     b=0
