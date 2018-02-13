@@ -11,23 +11,23 @@ class Client:
 		self.top = ""
 		self.bottom = ""
 		self.lcd = Display()
-        self.writeTop("")
-        self.writeBot("")
+        self.lcd.writeTop("")
+        self.lcd.writeBot("")
 
 	def startClient(self):
 		# connect the client
 		while True:
 			received = self.client.recv(4096)
 			print received
-                if received == "":
-                    time.sleep(1)
-                    continue
-                if received[0] == "t":
-                	self.top = received[1:]
-                	self.lcd.writeTop(self.top)
-                if received[0] == "b":
-                	self.bottom = received[1:]
-                	self.lcd.writeBot(self.bottom)
+            if received == "":
+                time.sleep(1)
+                continue
+            elif received[0] == "t":
+               	self.top = received[1:]
+                self.lcd.writeTop(self.top)
+            elif received[0] == "b":
+                self.bottom = received[1:]
+                self.lcd.writeBot(self.bottom)
 
 
 	def sendMessage(self, message):
