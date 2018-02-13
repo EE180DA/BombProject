@@ -6,7 +6,7 @@ class Server:
     client_sock = None
     def __init__(self, server_num):
         self.bind_ip = '192.168.42.1'
-        self.port_numbers = [4999, 3999]
+        self.port_numbers = [4999, 3999, 5999] #0 = gesture, #1 = button/wire, #2 = screen2
         self.bind_port = self.port_numbers[server_num]
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
