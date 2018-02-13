@@ -40,8 +40,12 @@ class Server:
             
 
     def send(self, message):
-        self.client_sock.send(message)
-
+        if self.client_sock != None:
+            self.client_sock.send(message)
+            return True
+        else:
+            return False
+            
     def set_result(self, code):
         self.result =  code
 if __name__ == '__main__':

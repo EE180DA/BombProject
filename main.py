@@ -12,6 +12,7 @@ from Display.screen import Display
 from Server.server_test import Server
 from PositionLocalization.localize import Localize
 from Buzzer.Buzzer import Buzzer
+
 class GameInstance:
 
 	def __init__(self, diff = -1):
@@ -30,6 +31,7 @@ class GameInstance:
 		self.thread = threading.Thread(target = self.timer, args = ())
 		self.server_thread1 = threading.Thread(target = self.wire_server_code, args = ())
                 self.server_thread2 = threading.Thread(target = self.gesture_server_code, args = ())
+        self.server_thread3 = threading.Thread(target = self.display_server_code, args = ())
 		self.thread.daemon = True
                 self.server_thread1.daemon = True
                 self.server_thread2.daemon = True
@@ -42,6 +44,7 @@ class GameInstance:
                 self.writeBot("")
        		self.server_gesture = Server(0)
         	self.server_wire = Server(1)
+        	self.server_display = Server(2)
 
 	def kill(self):
 		del self
@@ -75,8 +78,12 @@ class GameInstance:
 
 	def wire_server_code(self):
 		self.server_wire.start_server("B1")
+
         def gesture_server_code(self):
             self.server_gesture.start_server("001")
+
+    def display_server_code(self):
+    	self.server_display.start_server("")
 
 	def timer(self):
 		startTime = int(time.time())
@@ -123,7 +130,7 @@ class GameInstance:
 		self.writeTop("0")
 
 	def start_game(self):
-		#self.intro()
+		self.intro()
                 print "starting"
                 print self.server_wire.get_result()
 		currGame = 1
@@ -137,60 +144,60 @@ class GameInstance:
                     if self.server_wire.get_result() == 'Success':
                         self.server_wire.send("W1")
                     time.sleep(1)
-		# self.move(red)
+		self.move(red)
 		
-		# while(not self.complete and self.timeleft > 0):
-		# 		#Also write new time to LCD screen
+		while(not self.complete and self.timeleft > 0):
+				#Also write new time to LCD screen
 
-		# 	print "\nTime to play: " + self.minigames[0]
-		# 	result = self.start_minigame(self.minigames[0])
-		# 	if result == 1:
-		# 		print "Congratulations you passed the first level"
+			print "\nTime to play: " + self.minigames[0]
+			result = self.start_minigame(self.minigames[0])
+			if result == 1:
+				print "Congratulations you passed the first level"
                                 
-  #                               self.writeTop("Passed")
-  #                               time.sleep(0.5)
+                                self.writeTop("Passed")
+                                time.sleep(0.5)
 
-		# 	print "\nTime to play: " + self.minigames[1]
-		# 	result = self.start_minigame(self.minigames[1])
-		# 	if result == 1:
-		# 		print "Congratulations you passed the second level"	
+			print "\nTime to play: " + self.minigames[1]
+			result = self.start_minigame(self.minigames[1])
+			if result == 1:
+				print "Congratulations you passed the second level"	
                                 
-  #                               self.writeTop("Passed")
-  #                               time.sleep(0.5)
+                                self.writeTop("Passed")
+                                time.sleep(0.5)
 
-		# 	print "\nTime to play: " + self.minigames[2]
-		# 	result = self.start_minigame(self.minigames[2])
-		# 	if result == 1:
-		# 		print "Congratulations you passed the third level"
+			print "\nTime to play: " + self.minigames[2]
+			result = self.start_minigame(self.minigames[2])
+			if result == 1:
+				print "Congratulations you passed the third level"
                                 
-  #                               self.writeTop("Passed")
-  #                               time.sleep(0.5)
+                                self.writeTop("Passed")
+                                time.sleep(0.5)
 
-		# 	print "\nTime to play: " + self.minigames[3]
-		# 	result = self.start_minigame(self.minigames[3])
-		# 	if result == 1:
-		# 		print "Congratulations you passed the fourth level"
+			print "\nTime to play: " + self.minigames[3]
+			result = self.start_minigame(self.minigames[3])
+			if result == 1:
+				print "Congratulations you passed the fourth level"
                                 
-  #                               self.writeTop("Passed")
-  #                               time.sleep(0.5)
-		# 	print "\nTime to play: " + self.minigames[4]
-		# 	result = self.start_minigame(self.minigames[4])
-		# 	if result == 1:
-		# 		print "Congratulations you passed the last level"                               
-  #                               self.writeTop("Passed")
-  #                               time.sleep(0.5)
-		# 	self.complete = True
+                                self.writeTop("Passed")
+                                time.sleep(0.5)
+			print "\nTime to play: " + self.minigames[4]
+			result = self.start_minigame(self.minigames[4])
+			if result == 1:
+				print "Congratulations you passed the last level"                               
+                                self.writeTop("Passed")
+                                time.sleep(0.5)
+			self.complete = True
 
 
-		# if self.timeleft == 0:
-		# 	print "BOOM"
-  #                       self.writeTop("BOOOOM!!")
-  #                       self.writeBot("")
-  #                       self.lcd.flash(5)
-		# else:
-		# 	print "Congratulations you've defused the bomb"
-  #                       self.writeTop("Congratulations!")
-  #                       self.lcd.flash(5)
+		if self.timeleft == 0:
+			print "BOOM"
+						self.writeTop("BOOOOM!!")
+						self.writeBot("")
+						self.lcd.flash(5)
+		else:
+			print "Congratulations you've defused the bomb"
+						self.writeTop("Congratulations!")
+						self.lcd.flash(5)
 
 	def get_minigames(self):
 		print '[%s]'%', '.join(map(str, self.minigames))
@@ -199,7 +206,7 @@ class GameInstance:
 	def start_minigame(self, game_name):
 		result = 0
 		if game_name == "images":
-                        self.writeTop("Images")
+			self.writeTop("Images")
 			d = DetectShapes()
 			print "Draw a " + d.get_target_color() + ' ' + d.get_target_shape() + "!"
 			result = d.start_minigame()
