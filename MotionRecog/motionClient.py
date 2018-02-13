@@ -67,6 +67,7 @@ if __name__ == '__main__':
 				g.sendMessage('Hint')
 			else:
 				result = 0
+				c=2
 				g.sendMessage('Fail')
 		if c == 2:
 			# For code 010, Nod is the correct answer
@@ -84,6 +85,7 @@ if __name__ == '__main__':
 				g.sendMessage('Hint')
 			else:
 				result = 0
+				c=3
 				g.sendMessage('Fail')
 
 		if c == 3:
@@ -102,6 +104,7 @@ if __name__ == '__main__':
 				g.sendMessage('Hint')
 			else:
 				result = 0
+				c=4
 				g.sendMessage('Fail')
 
 		if c == 4:
@@ -120,6 +123,7 @@ if __name__ == '__main__':
 				g.sendMessage('Hint')
 			else:
 				result = 0
+				c=5
 				g.sendMessage('Fail')
 		if c == 5:
 			# For code 101, Nod is the correct answer
@@ -137,6 +141,7 @@ if __name__ == '__main__':
 				g.sendMessage('Hint')
 			else:
 				result = 0
+				c=6
 				g.sendMessage('Fail')
 		if c == 6:
 			# For code 110, Shake is the correct answer
@@ -154,6 +159,7 @@ if __name__ == '__main__':
 				g.sendMessage('Hint')
 			else:
 				result = 0
+				c=7
 				g.sendMessage('Fail')
 		if c == 7:
 			# For code 111, Nod is the correct answer
@@ -171,6 +177,7 @@ if __name__ == '__main__':
 				g.sendMessage('Hint')
 			else:
 				result = 0
+				c=1
 				g.sendMessage('Fail')
 		if c == 8:
 			print('Client Error')
