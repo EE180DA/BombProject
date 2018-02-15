@@ -3,19 +3,31 @@ from colorDetector import ColorDetector
 import imutils
 import cv2
 import numpy as np 
+import random
 
 
 class DetectShapes:
 
 	def __init__ (self):
-		pass
+		self.shapes = ["triangle", "square", "pentagon", "hexagon", "heptagon"]
+		self.shapes_morse = {"triangle" : "- .-. ..", "square" : "... --.- ..-", "pentagon" : ".--. . -. ", "hexagon" : ".... . -..-", "heptagon" : ".... . .--."}
+		self.colors = ["red", "blue", "green", "black", "brown", "purple", "orange"]
+		self.colors_morse =  {"red" : ".-. . -..", "blue" : "-... .-.. ..-", "green" : "--. .-. .", "black" : "-... .-.. .-", "brown" : "-... .-. ---", "purple" : ".--. ..- .-.", "orange" : "--- .-. .-"}
 
 
 	def get_target_shape(self):
-		return "triangle"
+		index = random.randint(0,4)
+		return self.shapes[index]
 
 	def get_target_color(self):
-		return "black"
+		index = random.randint(0,6)
+		return self.colors[index]
+
+	def get_shape_morse(self, shape):
+		return self.shapes_morse[shape]
+
+	def get_color_morse(self, color):
+		return self.colors_morse[color]
 
 	def start_minigame(self):
 		cap = cv2.VideoCapture(0)
@@ -92,4 +104,10 @@ class DetectShapes:
 
 if __name__ == '__main__':
 	d = DetectShapes()
-	d.start_minigame()
+	color = d.get_target_color()
+	print color
+	print d.get_color_morse(color)
+	shape = d.get_target_shape()
+	print shape
+	print d.get_shape_morse(shape)
+
