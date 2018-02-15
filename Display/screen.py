@@ -28,6 +28,21 @@ class Display:
                 time.sleep(0.1)
                 timer -= 0.2
 
+        def set_color(self, color):
+            if (color == "r"):
+                r=255
+                g=0
+                b=0
+            elif (color == "g"):
+                r=0
+                g=255
+                b=0
+            elif (color == "o"):
+                r=0
+                g=0
+                b=0
+            setRGB(r,g,b)
+
 
 if __name__ == '__main__':
 	g=Display()

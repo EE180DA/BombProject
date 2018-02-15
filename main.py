@@ -22,20 +22,21 @@ class GameInstance:
 		self.difficulty = diff
 		self.time = 240/self.difficulty #time left in seconds
 		self.timeleft = self.time+3
-		self.errorPenalty = 10*self.difficulty
-		self.complete = False
+		self.errorPenalty = 5*self.difficulty
 		self.minigames = ['buttons', 'images', 'gestures', 'voice']
-		self.move_time = 120/self.difficulty
+		self.move_time = 30/self.difficulty
 		shuffle(self.minigames)
 		self.minigames.append('wirecutting')
 		self.thread = threading.Thread(target = self.timer, args = ())
 		self.wire_thread = threading.Thread(target = self.wire_server_code, args = ())
 		self.gesture_thread = threading.Thread(target = self.gesture_server_code, args = ())
 		self.display_thread = threading.Thread(target = self.display_server_code, args = ())
+		self.buzz_thread = threading.Thread(target = self.buzz, args = ())
 		self.thread.daemon = True
 		self.wire_thread.daemon = True
 		self.gesture_thread.daemon = True
 		self.display_thread.daemon = True
+		self.buzz_thread.daemon = True
 		self.topText = ""
 		self.prevTopText = ""
 		self.botText = ""
@@ -70,7 +71,7 @@ class GameInstance:
 		return int(self.timeleft)
 
 	def penalize(self):
-		self.time = self.time - self.difficulty*5
+		self.time = self.time - self.errorPenalty
 		self.lcd.flash(1, r)
 		self.buzzer.play("wrong")
 
@@ -80,7 +81,7 @@ class GameInstance:
 
 	def success(self):
 		self.lcd.flash(2, g)
-		
+		self.buzzer.play("win")
 
 	def explode(self):
 		print "BOOM!"
@@ -108,6 +109,10 @@ class GameInstance:
 		message = 'b'+text
 		self.server_display.send(message)
 
+	def flash_morse(self, text):
+		message = 'm'+text
+		self.server_display.send(message)
+
 	def timer(self):
 		startTime = int(time.time())
 		oldtimeleft = self.timeleft
@@ -119,10 +124,27 @@ class GameInstance:
 			if(self.timeleft <= 0):
 				self.explode()
 
+
+	def buzz(self):
+		while self.timeleft > 0:
+			if timeleft > 90:
+				sleeptime = 1
+			elif timeleft > 60:
+				sleeptime = 0.7
+			elif timeleft > 20:
+				sleeptime = 0.5
+			elif timeleft > 10:
+				sleeptime = 0.3
+			else:
+				sleeptime = 0.1
+			self.buzzer.play("beep")
+			time.sleep(sleeptime)
+
 	def move(self, color):
 		print "Move to defusal area!"
+		self.write_top("Move to {}!".format(color))
 		l = Localize()
-		result = l.find(10)
+		result = l.find(self.move_time)
 		if result == "boom":
 			self.explode
 		elif result == color:
@@ -159,115 +181,86 @@ class GameInstance:
 		self.wire_thread.start()
 		self.gesture_thread.start()
 		self.display_thread.start()
-
+		self.buzz_thread.start()
 		self.move(red)
 		
-		while(not self.complete and self.timeleft > 0):
-				#Also write new time to LCD screen
+		print "\nTime to play: " + self.minigames[0]
+		result = self.start_minigame(self.minigames[0])
+		print "Congratulations you passed the first level"
+		self.write_top("Passed")
+		time.sleep(0.5)
 
-			print "\nTime to play: " + self.minigames[0]
-			result = self.start_minigame(self.minigames[0])
-			if result == 1:
-				print "Congratulations you passed the first level"
-				self.write_top("Passed")
-				time.sleep(0.5)
+		print "\nTime to play: " + self.minigames[1]
+		result = self.start_minigame(self.minigames[1])
+		print "Congratulations you passed the second level"	
+		self.write_top("Passed")
+		time.sleep(0.5)
 
-			print "\nTime to play: " + self.minigames[1]
-			result = self.start_minigame(self.minigames[1])
-			if result == 1:
-				print "Congratulations you passed the second level"	
-				self.write_top("Passed")
-				time.sleep(0.5)
+		print "\nTime to play: " + self.minigames[2]
+		result = self.start_minigame(self.minigames[2])
+		print "Congratulations you passed the third level"
+		self.write_top("Passed")
+		time.sleep(0.5)
 
-			print "\nTime to play: " + self.minigames[2]
-			result = self.start_minigame(self.minigames[2])
-			if result == 1:
-				print "Congratulations you passed the third level"
-				self.write_top("Passed")
-				time.sleep(0.5)
+		print "\nTime to play: " + self.minigames[3]
+		result = self.start_minigame(self.minigames[3])
+		print "Congratulations you passed the fourth level"
+		self.write_top("Passed")
+		time.sleep(0.5)
 
-			print "\nTime to play: " + self.minigames[3]
-			result = self.start_minigame(self.minigames[3])
-			if result == 1:
-				print "Congratulations you passed the fourth level"
-				self.write_top("Passed")
-				time.sleep(0.5)
-			print "\nTime to play: " + self.minigames[4]
-			result = self.start_minigame(self.minigames[4])
-			if result == 1:
-				print "Congratulations you passed the last level"
-				self.write_top("Passed")
-				time.sleep(0.5)
-			self.complete = True
+		print "\nTime to play: " + self.minigames[4]
+		result = self.start_minigame(self.minigames[4])
+		print "Congratulations you passed the last level"
+		self.write_top("Passed")
+		time.sleep(0.5)
 
+		print "Congratulations you've defused the bomb"
+		self.write_top("Congratulations!")
+		self.lcd.flash(5)
 
-		if self.timeleft == 0:
-			print "BOOM"
-			self.write_top("BOOOOM!!")
-			self.write_bot("")
-			self.lcd.flash(5)
-		else:
-			print "Congratulations you've defused the bomb"
-			self.write_top("Congratulations!")
-			self.lcd.flash(5)
 
 	def get_minigames(self):
 		print '[%s]'%', '.join(map(str, self.minigames))
 		return self.minigames
 
 	def start_minigame(self, game_name):
-		result = 0
 		if game_name == "images":
-			return image_game()
+			image_game()
 
 		elif game_name == "buttons":
 			self.write_top("Buttons")
-			self.server_wire.send("B1")
-			while True:
-
-			time.sleep(5)
+			buttons_game()
 
 		elif game_name == "gestures":
 			self.write_top("Gestures")
-			self.write_bot("NOD!!")
-			while result == 0:
-				result = self.server_gesture.start_server("1234")
-				if result == 0:
-					self.time -= self.errorPenalty
-					self.write_top("Error")
-					print "Error!"
-					time.sleep(1)
-					self.write_top("Gestures")
-
-		elif game_name == "voice":
-			self.write_top("Voice")
-			self.write_bot("ORANGE")
-			v = SpeechRecognition()
-			result = v.startrecording(2)
+			gestures_game()
 
 		elif game_name == "wirecutting":
 			self.write_top("Wirecutting")
-			self.write_bot("Cut Blk-Blk")
-			while result == 0:
-				result = self.server_wire.start_server("BlBl")
-				if result == 0:
-					self.time -= self.errorPenalty
-					self.write_top("Error")
-					print "Error! You failed"
-					time.sleep(1)
-					self.write_top("Wirecutting")
-			
-		return result	
+			wires_game()
+				
 
 	def image_game(self):
 		self.write_top("Images")
 		d = DetectShapes()
-		print "Draw a " + d.get_target_color() + ' ' + d.get_target_shape() + "!"
-		if difficulty == 1:
-			self.write_top2
-		#Add morse code here for harder difficulty
-		result = d.start_minigame()
-		return result
+		shape = d.get_target_color()
+		color = d.get_target_shape()
+		shape_morse = d.get_shape_morse()
+		color_morse = d.get_color_morse()
+		print "Draw a " + color + ' ' + shape + "!"
+		if self.difficulty == 1:
+			self.write_top2("Draw a")
+			self.write_bot2("{} {}".format(color, shape))
+		elif self.difficulty == 2:
+			self.write_top2("Shape: {}".format(shape_morse))
+			self.write_bot2("Color: {}".format(color_morse))
+		else:
+			self.flash_morse("{} {}".format(color_morse, shape_morse))
+		d.start_minigame()
+		if self.difficulty == 3:
+			self.server_display.send("#")
+		self.success()
+		
 
 	def buttons_game(self):
 		msg = "B"+str(self.difficulty)
@@ -277,6 +270,36 @@ class GameInstance:
 			if(result == 0):
 				self.penalize()
 			if(result == 1):
+				self.correct()
+			else:
+				self.write_top2(result)
+		self.success()
+		
+	def gestures_game(self):
+		msg = "G"+str(self.difficulty)
+		self.server_gesture.send(msg)
+		while(server_gesture.get_result() != 2):
+			result = server_gesture.get_result()
+			if(result == 0):
+				self.penalize()
+			if(result == 1):
+				self.correct()
+			else:
+				self.write_top2(result)
+		self.success()
+
+	def wires_game(self):
+		msg = "W"+str(self.difficulty)
+		self.server_wire.send(msg)
+		while(server_wire.get_result() != 2):
+			result = server_wire.get_result()
+			if(result == 0):
+				self.penalize()
+			if(result == 1):
+				self.correct()
+			else:
+				self.write_top2(result)
+		self.success()
 
 
 
