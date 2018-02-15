@@ -3,9 +3,11 @@ import random
 import time
 
 class WireCutting:
-	def __init__(self):
-		random.seed()
+	def __init__(self, diff):
+		#random.seed()
 		#self.RANDGEN = random.randint(0,4)
+		self.difficulty = diff
+		#flags for cut wire
 
 	def getValues(self):
 		self.a0 = mraa.Aio(0)
@@ -15,11 +17,13 @@ class WireCutting:
 		self.a4 = mraa.Aio(4)
 
 
-	def startGame(self, RANDGEN):
+	def startGame(self):
+
+
+
 		if RANDGEN == 0:
 			print "Cut the RED + RED wire!"
 			while True:
-				self.getValues()
 				if self.a0.read() < 160:
 					print "SUCCESS"
 					return(1)
