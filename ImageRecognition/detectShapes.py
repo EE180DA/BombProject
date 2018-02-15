@@ -66,7 +66,7 @@ class DetectShapes:
 			 		cv2.putText(resized, color, (cX, cY-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 					# show the output image
                                         print color + " " + shape
-					if shape == "triangle" and color == "black":
+					if shape == self.get_target_shape and color == self.get_target_color:
 						detected = True
 						# print "detected"
 				if detected:

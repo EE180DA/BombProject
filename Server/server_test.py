@@ -48,6 +48,7 @@ class Server:
             
     def set_result(self, code):
         self.result =  code
+        
 if __name__ == '__main__':
     server_number = 0
     g = Server(server_number)
