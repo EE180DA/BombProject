@@ -6,7 +6,7 @@ class Server:
     client_sock = None
     def __init__(self, server_num):
         self.bind_ip = '192.168.42.1'
-        self.port_numbers = [4999, 3999]
+        self.port_numbers = [4999, 3999, 5999] #0 = gesture, #1 = button/wire, #2 = screen2
         self.bind_port = self.port_numbers[server_num]
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,14 +23,16 @@ class Server:
 
         while True:
             msg = client_socket.recv(1024)
-            time.sleep(1)
-            if msg == "Success":
-                self.result = msg
-            if msg == "Success1":
+            time.sleep(0.1)
+            if msg != "":
                 self.result = msg
 
     def get_result(self):
-        return self.result
+        res = self.result
+        if res != "":
+            print res
+        self.result = ""
+        return res
 
     #Starts the server, waits for a connection with a client, receives the result of the game(Fail or Success)
     def start_server(self, game_code):
@@ -42,10 +44,15 @@ class Server:
             
 
     def send(self, message):
-        self.client_sock.send(message)
-
+        if self.client_sock != None:
+            self.client_sock.send(message)
+            return True
+        else:
+            return False
+            
     def set_result(self, code):
         self.result =  code
+        
 if __name__ == '__main__':
     server_number = 0
     g = Server(server_number)

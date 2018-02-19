@@ -17,10 +17,12 @@ class DetectShapes:
 
 	def get_target_shape(self):
 		index = random.randint(0,4)
+                print self.shapes[index]
 		return self.shapes[index]
 
 	def get_target_color(self):
 		index = random.randint(0,6)
+                print self.colors[index]
 		return self.colors[index]
 
 	def get_shape_morse(self, shape):
@@ -90,7 +92,7 @@ class DetectShapes:
 					fullyDetected = True
 				
 
-				cv2.imshow('frame', resized)
+				#cv2.imshow('frame', resized)
 				if fullyDetected:
 					break
 				if cv2.waitKey(1) & 0xFF == ord('q'):

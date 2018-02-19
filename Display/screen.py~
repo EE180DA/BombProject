@@ -2,38 +2,53 @@ from grove_rgb_lcd import *
 
 class Display:
 	def __init__(self):
-		setRGB(255,255,255)
+            setRGB(255,255,255)
 #write on top row
-        def writeTop(self,text):
-		  setText(text,1)
-          return text
+        def write_top(self,text):
+            setText(text,1)
+            return text
 #write on bottom row
-        def writeBot(self,text):
-		  setText(text,2)
-          return text
+        def write_bot(self,text):
+            setText(text,2)
+            return text
 #flash for x seconds 
         def flash(self,timer,color):
             while timer>0:
-                if (color == "r")
+                if (color == "r"):
                     r=255
                     g=0
                     b=0
-                elif (color == "g")
+                elif (color == "g"):
                     r=0
                     g=255
                     b=0
                 setRGB(r,g,b)
                 time.sleep(0.1)
-                setRGB(r,g,b)
+                setRGB(0,0,0)
                 time.sleep(0.1)
                 timer -= 0.2
+
+        def set_color(self, color):
+            if (color == "r"):
+                r=255
+                g=0
+                b=0
+            elif (color == "g"):
+                r=0
+                g=255
+                b=0
+            elif (color == "o"):
+                r=0
+                g=0
+                b=0
+            setRGB(r,g,b)
 
 
 if __name__ == '__main__':
 	g=Display()
-	g.writeTop("Hello")
-	g.writeBot("World")
+	g.write_top("Hello")
+	g.write_bot("World")
         time.sleep(1)
-        g.writeTop("Refresh")
-        g.flash(3,"r")
+        g.write_top("Refresh")
+        g.flash(4,"r")
 

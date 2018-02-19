@@ -42,7 +42,7 @@ class GameInstance:
 		self.botText = ""
 		self.prevBotText = ""
 		self.lcd = Display()
-		self.buzzer = Buzzer()
+		self.buzzer = Buzzer(5)
 		self.write_top("")
 		self.write_bot("")
 		self.server_gesture = Server(0)
@@ -72,16 +72,19 @@ class GameInstance:
 
 	def penalize(self):
 		self.time = self.time - self.errorPenalty
-		self.lcd.flash(1, r)
+		self.lcd.flash(1, "r")
 		self.buzzer.play("wrong")
+                print "wrong"
 
 	def correct(self):
-		self.lcd.flash(1, g)
+		self.lcd.flash(1, "g")
 		self.buzzer.play("right")
+                print "right"
 
 	def success(self):
-		self.lcd.flash(2, g)
+		self.lcd.flash(2,"g")
 		self.buzzer.play("win")
+                print "pass"
 
 	def explode(self):
 		print "BOOM!"
@@ -127,13 +130,13 @@ class GameInstance:
 
 	def buzz(self):
 		while self.timeleft > 0:
-			if timeleft > 90:
+			if self.timeleft > 90:
 				sleeptime = 1
-			elif timeleft > 60:
+			elif self.timeleft > 60:
 				sleeptime = 0.7
-			elif timeleft > 20:
+			elif self.timeleft > 20:
 				sleeptime = 0.5
-			elif timeleft > 10:
+			elif self.timeleft > 10:
 				sleeptime = 0.3
 			else:
 				sleeptime = 0.1
@@ -175,14 +178,15 @@ class GameInstance:
 		self.write_top("0")
 
 	def start_game(self):
-		self.intro()
+		#self.intro()
 		currGame = 1
 		self.thread.start()
 		self.wire_thread.start()
 		self.gesture_thread.start()
 		self.display_thread.start()
 		self.buzz_thread.start()
-		self.move(red)
+		#self.move("red")
+                time.sleep(3)
 		
 		print "\nTime to play: " + self.minigames[0]
 		result = self.start_minigame(self.minigames[0])
@@ -225,28 +229,29 @@ class GameInstance:
 
 	def start_minigame(self, game_name):
 		if game_name == "images":
-			image_game()
+                        self.write_top("images")
+			#self.image_game()
 
 		elif game_name == "buttons":
 			self.write_top("Buttons")
-			buttons_game()
+			self.buttons_game()
 
 		elif game_name == "gestures":
 			self.write_top("Gestures")
-			gestures_game()
-
+			#self.gestures_game()
+                        
 		elif game_name == "wirecutting":
 			self.write_top("Wirecutting")
-			wires_game()
+			self.wires_game()
 				
 
 	def image_game(self):
 		self.write_top("Images")
 		d = DetectShapes()
-		shape = d.get_target_color()
-		color = d.get_target_shape()
-		shape_morse = d.get_shape_morse()
-		color_morse = d.get_color_morse()
+		color = d.get_target_color()
+		shape = d.get_target_shape()
+		shape_morse = d.get_shape_morse(shape)
+		color_morse = d.get_color_morse(color)
 		print "Draw a " + color + ' ' + shape + "!"
 		if self.difficulty == 1:
 			self.write_top2("Draw a")
@@ -265,24 +270,33 @@ class GameInstance:
 	def buttons_game(self):
 		msg = "B"+str(self.difficulty)
 		self.server_wire.send(msg)
-		while(server_wire.get_result() != 2):
-			result = server_wire.get_result()
-			if(result == 0):
-				self.penalize()
-			if(result == 1):
-				self.correct()
-			else:
-				self.write_top2(result)
+                prev_result = ""
+		while(True):
+			result = self.server_wire.get_result()
+		#	if(result == "Wrong"):
+		#		self.penalize()
+                 #               result = ""
+                  #      if(result == "Right"):
+		#		self.correct()
+                 #               result = ""
+                  #      elif(result != ""):
+                        if result == "Success":
+                            print "success"
+                            break
+                        if result != "":
+                            if self.write_top2(result) == False:
+                                print "failed to send"
+                                self.write_top2(result)
 		self.success()
 		
 	def gestures_game(self):
 		msg = "G"+str(self.difficulty)
 		self.server_gesture.send(msg)
-		while(server_gesture.get_result() != 2):
-			result = server_gesture.get_result()
-			if(result == 0):
+		while(self.server_gesture.get_result() != "Success"):
+			result = self.server_gesture.get_result()
+			if(result == "Wrong"):
 				self.penalize()
-			if(result == 1):
+                        if(result == "Right"):
 				self.correct()
 			else:
 				self.write_top2(result)
@@ -291,14 +305,21 @@ class GameInstance:
 	def wires_game(self):
 		msg = "W"+str(self.difficulty)
 		self.server_wire.send(msg)
-		while(server_wire.get_result() != 2):
-			result = server_wire.get_result()
-			if(result == 0):
-				self.penalize()
-			if(result == 1):
-				self.correct()
-			else:
-				self.write_top2(result)
+		while(True):
+			result = self.server_wire.get_result()
+		#	if(result == "Wrong"):
+		#		self.penalize()
+                 #       if(result == "Right"):
+		#		self.correct()
+		#	else:
+                        if result == "Success":
+                            print "Success"
+                            break
+                        if result != "":
+                            if self.write_top2(result) == False:
+                                print "failed to send"
+                                time.sleep(0.5)
+                                self.write_top2(result)
 		self.success()
 
 
@@ -307,4 +328,4 @@ class GameInstance:
 if __name__ == '__main__':
 	g = GameInstance()
 	g.get_minigames()
-	g.start_game()		
+	g.start_game()

@@ -12,7 +12,7 @@ class Server:
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind((self.bind_ip, self.bind_port))
         self.server.listen(5)  # max backlog of connections
-        self.result = "Nothing Yet"
+        self.result = ""
         print 'Listening on {}:{}'.format(self.bind_ip, self.bind_port)
 
     #Sends a message to the client to indicate the start of a game, then received the result of that game    
@@ -23,12 +23,16 @@ class Server:
 
         while True:
             msg = client_socket.recv(1024)
-            time.sleep(1)
+            time.sleep(0.1)
             if msg != "":
                 self.result = msg
 
     def get_result(self):
-        return self.result
+        res = self.result
+        if res != "":
+            print res
+        self.result = ""
+        return res
 
     #Starts the server, waits for a connection with a client, receives the result of the game(Fail or Success)
     def start_server(self, game_code):

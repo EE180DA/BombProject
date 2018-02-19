@@ -15,7 +15,7 @@ class Localize:
 
 	def find(self, time_left):
 		start_time = time.time()
-		cap = cv2.VideoCapture(2)
+		cap = cv2.VideoCapture(0)
 		detectCount = 0
 
 		green_lower_range = np.array([0, 40, 30], dtype=np.uint8)
@@ -115,9 +115,9 @@ class Localize:
 				# cv2.imshow('edged',edged)
 				# cv2.imshow('gray',gray)
 				
-				cv2.imshow('Objects Detected',frame)
-				cv2.imshow('green', green_edged)
-				cv2.imshow('red', red_edged)
+				#cv2.imshow('Objects Detected',frame)
+				#cv2.imshow('green', green_edged)
+				#cv2.imshow('red', red_edged)
 				if r_distance < 0.7:
 					return "red"
 				elif g_distance < 0.7:
