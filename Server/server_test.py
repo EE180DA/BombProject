@@ -18,14 +18,11 @@ class Server:
     #Sends a message to the client to indicate the start of a game, then received the result of that game    
     def handle_client_connection(self, client_socket, game_code):
         client_socket.send(game_code)
-
-        self.result = client_socket.recv(1024)
-
         while True:
             msg = client_socket.recv(1024)
-            time.sleep(0.1)
             if msg != "":
                 self.result = msg
+            time.sleep(0.1)
 
     def get_result(self):
         res = self.result
