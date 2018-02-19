@@ -1,15 +1,25 @@
 import mraa
+from .VoiceRecog.speech import SpeechRecognition
+import time
 
 class theButton:
 	def __init__(self, diff):
 		self.pin = mraa.Gpio(8)
 		self.difficulty = diff
+		self.button_time = 5
 
-	def start(self, diff):
-		while True:
-			if self.pin.read() == 1:
-				print "Button pressed"
+	def start(self):
+		timeout_start = time.time()
+        #5 seconds to press the red button to initiate bonus sequence
+        while time.time() < timeout_start + self.button_time:
+	    	if self.pin.read() == 1:
+		    	g = SpeechRecognition()
+		        result = g.start_bonus()
+		        return result
+	    return(0)
+		#result = 0:no bonus, 1:add score, 2:add time
 
 if __name__ == '__main__':
-	b = theButton()
-	b.start()
+	b = theButton(0)
+	result = b.start()
+	print result

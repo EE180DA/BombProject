@@ -13,13 +13,14 @@ import sphinxbase
 class SpeechRecognition:
     # Parameters for pocketsphinx
     def __init__(self):
-        self.LMD   = "/home/root/BombProject/VoiceRecog/speech/speech/lm/3867.lm"
-        self.DICTD = "/home/root/BombProject/VoiceRecog/speech/speech/lm/3867.dic"
+        self.LMD   = "/home/root/BombProject/VoiceRecog/lm/3867.lm"
+        self.DICTD = "/home/root/BombProject/VoiceRecog/lm/3867.dic"
         self.CHUNK = 1024
         self.FORMAT = pyaudio.paInt16
         self.CHANNELS = 1
         self.RATE = 16000
         self.RECORD_SECONDS = 2
+        self.RECORD_BONUS_SECONDS = 3
         self.PATH = 'output'
         self.items = ['APPLE', 'BANANA', 'ORANGE', 'GRAPEFRUIT']
         self.answer = ""
@@ -41,6 +42,21 @@ class SpeechRecognition:
             if self.answer in words:
                 print("Correct Keyword Detected")
                 return(1)
+
+    def triggerBonusWords(self, words):
+        #result = 0:no bonus, 1:add score, 2:add time
+        if "ADD" in words:
+            if "TIME" in words:
+                print("Add time")
+                return(2)
+            if "SCORE" in words:
+                print("Add score")
+                return(1)
+            return(0)
+        else:
+            print("Bonus Word not detected")
+            return(0)
+            
           
     def decodeSpeech(self, speech_rec, wav_file):
 	wav_file = file(wav_file,'rb')
@@ -88,7 +104,7 @@ class SpeechRecognition:
             rec_words = recognised.split()
 
             # Trigger Words
-            result = self.triggerWords(rec_words, game_code)
+            result = self.triggerBonusWords(rec_words, game_code)
             #Check if the correct answer was said
             if result == 1:
                 return(1)
@@ -97,15 +113,63 @@ class SpeechRecognition:
             cm = 'espeak "'+recognised+'"'
             os.system(cm)
 
+
+    #Provide bonus time or score to players
+    #Big red button will flash, players have 5 seconds to press the button
+    #Players will then have 3 seconds to say the bonus word "Add Time" or "Add Score"
+    def start_bonus(self):
+       
+        if not os.path.exists(self.PATH):
+            os.makedirs(self.PATH)
+
+        p = pyaudio.PyAudio()
+        speech_rec = ps.Decoder(lm=self.LMD, dict=self.DICTD)
+
+        # Record audio
+        stream = p.open(format=self.FORMAT, channels=self.CHANNELS, rate=self.RATE, input=True, frames_per_buffer=self.CHUNK)
+        print("* recording")
+        frames = []
+        for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_BONUS_SECONDS)):
+                data = stream.read(self.CHUNK)
+                frames.append(data)
+        print("* done recording")
+        stream.stop_stream()
+        stream.close()
+        #p.terminate()
+
+        # Write .wav file
+        fn = "o.wav"
+        wf = wave.open(os.path.join(self.PATH, fn), 'wb')
+        wf.setnchannels(self.CHANNELS)
+        wf.setsampwidth(p.get_sample_size(self.FORMAT))
+        wf.setframerate(self.RATE)
+        wf.writeframes(b''.join(frames))
+        wf.close()
+
+        # Decode speech
+        wav_file = os.path.join(self.PATH, fn)
+        recognised = self.decodeSpeech(speech_rec, wav_file)
+        rec_words = recognised.split()
+
+        # Trigger Words
+        result = self.triggerBonusWords(rec_words)
+        #Check if the correct answer was said
+        return result
+
+
+        
+
 if __name__ == "__main__":
     g = SpeechRecognition()
-    try:
-        output = g.startrecording(1)
-        if output == 1:
-            print("Round passed")
-        else:
-            print("Round failed")
-    except KeyboardInterrupt:
-        print "Keyboard interrupt received. Cleaning up..."
+    result = g.start_bonus()
+    print result
+    # try:
+    #     output = g.startrecording(1)
+    #     if output == 1:
+    #         print("Round passed")
+    #     else:
+    #         print("Round failed")
+    # except KeyboardInterrupt:
+    #     print "Keyboard interrupt received. Cleaning up..."
         
 

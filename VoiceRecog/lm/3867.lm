@@ -1,4 +1,4 @@
-Language model created by QuickLM on Thu Dec  7 15:03:26 EST 2017
+Language model created by QuickLM on Mon Feb 19 04:07:02 EST 2018
 Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
 
 The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
@@ -7,39 +7,51 @@ The code that was used to produce this language model is available in Open Sourc
 Please visit http://www.speech.cs.cmu.edu/tools/ for more information
 
 The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
-This model based on a corpus of 5 sentences and 7 words
+This model based on a corpus of 8 sentences and 10 words
 
 \data\
-ngram 1=7
-ngram 2=10
-ngram 3=5
+ngram 1=10
+ngram 2=16
+ngram 3=8
 
 \1-grams:
 -0.7782 </s> -0.3010
 -0.7782 <s> -0.2218
--1.4771 APPLE -0.2218
--1.4771 BANANA -0.2218
--1.4771 GRAPEFRUIT -0.2218
--1.4771 KEYWORD -0.2218
--1.4771 ORANGE -0.2218
+-1.6812 ADD -0.2218
+-1.6812 APPLE -0.2218
+-1.6812 BANANA -0.2218
+-1.6812 GRAPEFRUIT -0.2218
+-1.6812 KEYWORD -0.2218
+-1.6812 ORANGE -0.2218
+-1.6812 SCORE -0.2218
+-1.6812 TIME -0.2218
 
 \2-grams:
--1.0000 <s> APPLE 0.0000
--1.0000 <s> BANANA 0.0000
--1.0000 <s> GRAPEFRUIT 0.0000
--1.0000 <s> KEYWORD 0.0000
--1.0000 <s> ORANGE 0.0000
+-1.2041 <s> ADD 0.0000
+-1.2041 <s> APPLE 0.0000
+-1.2041 <s> BANANA 0.0000
+-1.2041 <s> GRAPEFRUIT 0.0000
+-1.2041 <s> KEYWORD 0.0000
+-1.2041 <s> ORANGE 0.0000
+-1.2041 <s> SCORE 0.0000
+-1.2041 <s> TIME 0.0000
+-0.3010 ADD </s> -0.3010
 -0.3010 APPLE </s> -0.3010
 -0.3010 BANANA </s> -0.3010
 -0.3010 GRAPEFRUIT </s> -0.3010
 -0.3010 KEYWORD </s> -0.3010
 -0.3010 ORANGE </s> -0.3010
+-0.3010 SCORE </s> -0.3010
+-0.3010 TIME </s> -0.3010
 
 \3-grams:
+-0.3010 <s> ADD </s>
 -0.3010 <s> APPLE </s>
 -0.3010 <s> BANANA </s>
 -0.3010 <s> GRAPEFRUIT </s>
 -0.3010 <s> KEYWORD </s>
 -0.3010 <s> ORANGE </s>
+-0.3010 <s> SCORE </s>
+-0.3010 <s> TIME </s>
 
 \end\
