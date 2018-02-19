@@ -107,9 +107,11 @@ class Client:
 		while i < 8:
 			print "Correct button:", self.buttonCorrectSequence[i]+1
 			print "Screen display number:", self.buttonScreenDisplay[i]
-			time.sleep(2)
-			#Send screen2 display to server
-			self.sendMessage(str(self.buttonScreenDisplay[i]))
+			
+			#Send screen2 display to server, dont send if end of game
+			if self.buttonScreenDisplay[i] != 8:
+				self.sendMessage(str(self.buttonScreenDisplay[i]))
+
 			x = self.buttonCorrectSequence[i]
 			#if medium difficiulty, only 4 button presses are required
 			if self.button_diff == 1:
@@ -119,7 +121,7 @@ class Client:
 				#if correct button is pressed, move on to next iteration of i (next stage)
 				if mraa.Gpio(self.buttonCorrectSequence[i]).read() == 1:
 					print "Next Stage"
-					#self.sendMessage("Right")
+					self.sendMessage("Right")
 					time.sleep(0.5)
 					i = i + 1
 					break
@@ -129,7 +131,7 @@ class Client:
 					mraa.Gpio(self.buttonCheckSequence[(x+12)%8]).read() == 1 or mraa.Gpio(self.buttonCheckSequence[(x+13)%8]).read() == 1 or mraa.Gpio(self.buttonCheckSequence[(x+14)%8]).read() == 1 or \
 					mraa.Gpio(self.buttonCheckSequence[(x+15)%8]).read() == 1:
 					print "Incorrect Answer, Stage Reset"
-					#self.sendMessage("Wrong")
+					self.sendMessage("Wrong")
 					i = 0
 					time.sleep(0.5)
 					break

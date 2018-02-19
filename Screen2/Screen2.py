@@ -13,10 +13,10 @@ class Client:
 		self.top = ""
 		self.bottom = ""
 		self.lcd = Display()
-		self.lcd.writeTop("")
-		self.lcd.writeBot("")
+		self.lcd.write_top("")
+		self.lcd.write_bot("")
 		self.code = ""
-		self.morse_thread = threading.Thread(target = self.morse, args = (code,))
+		self.morse_thread = threading.Thread(target = self.morse, args = ())
 		self.morse_thread.daemon = True
 		self.morsing = False
 
@@ -55,17 +55,15 @@ class Client:
 				continue
 			elif received[0] == "t":
 				self.top = received[1:]
-				self.lcd.writeTop(self.top)
+				self.lcd.write_top(self.top)
 			elif received[0] == "b":
 				self.bottom = received[1:]
-				self.lcd.writeBot(self.bottom)
+				self.lcd.write_bot(self.bottom)
 			elif received[0] == "m":
 				self.top = "Read Morse"
 				self.bottom = "Much?"
 				self.morsing = True
-			elif received[0] == "#":
 				self.code = received[1:]
-				self.morsing = True
 				self.morse_thread.start()
 			elif received[0] == "#":
 				self.morsing = False
