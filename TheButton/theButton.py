@@ -4,7 +4,7 @@ import time
 
 class TheButton:
 	def __init__(self):
-		self.pin = mraa.Gpio(5)
+		self.pin = mraa.Gpio(8)
 		self.difficulty = 1
 		self.button_time = 5
 
