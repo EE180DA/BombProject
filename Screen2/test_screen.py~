@@ -17,7 +17,7 @@ class Client:
 		self.lcd.write_top("")
 		self.lcd.write_bot("")
                 self.code = ""
-		self.morse_thread = threading.Thread(target = self.morse, args = (self.code,))
+		self.morse_thread = threading.Thread(target = self.morse, args = ())
 		self.morse_thread.daemon = True
 		self.morsing = True
 

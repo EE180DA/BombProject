@@ -11,7 +11,7 @@ class Client:
 		# client.connect((target, port))
 		self.client.connect(('192.168.42.1', 5999))
 		self.top = ""
-		self.bottom = ""
+		self.botto = ""
 		self.lcd = Display()
 		self.lcd.writeTop("")
 		self.lcd.writeBot("")

@@ -1,6 +1,7 @@
 
 import time
 from random import shuffle
+from random import randint
 import threading
 import thread
 from ImageRecognition.detectShapes import DetectShapes
@@ -12,6 +13,7 @@ from Display.screen import Display
 from Server.server_test import Server
 from PositionLocalization.localize import Localize
 from Buzzer.Buzzer import Buzzer
+from TheButton.theButton import TheButton
 
 class GameInstance:
 
@@ -20,19 +22,26 @@ class GameInstance:
 			diff = raw_input("Please choose a difficulty level (1-3): ")
 			diff = int(diff)
 		self.difficulty = diff
-		self.time = 240/self.difficulty #time left in seconds
+		self.time = 300 #time left in seconds
 		self.timeleft = self.time+3
 		self.errorPenalty = 5*self.difficulty
 		self.minigames = ['buttons', 'images', 'gestures', 'voice']
 		self.move_time = 30/self.difficulty
 		shuffle(self.minigames)
+                self.buttontime = randint(20, 120)
+                self.buttontime2 = 295#randint (170, 280)
+                self.Button = TheButton(self.difficulty)
 		self.minigames.append('wirecutting')
 		self.thread = threading.Thread(target = self.timer, args = ())
 		self.wire_thread = threading.Thread(target = self.wire_server_code, args = ())
 		self.gesture_thread = threading.Thread(target = self.gesture_server_code, args = ())
 		self.display_thread = threading.Thread(target = self.display_server_code, args = ())
 		self.buzz_thread = threading.Thread(target = self.buzz, args = ())
-		self.thread.daemon = True
+		self.button_thread = threading.Thread(target = self.button_code, args = ())
+                self.button_thread2 = threading.Thread(target = self.button_code, args = ())
+                self.button_thread2.daemon = True
+                self.button_thread.daemon = True
+                self.thread.daemon = True
 		self.wire_thread.daemon = True
 		self.gesture_thread.daemon = True
 		self.display_thread.daemon = True
@@ -45,6 +54,7 @@ class GameInstance:
 		self.buzzer = Buzzer(5)
 		self.write_top("")
 		self.write_bot("")
+                self.score = 0
 		self.server_gesture = Server(0)
 		self.server_wire = Server(1)
 		self.server_display = Server(2)
@@ -71,6 +81,7 @@ class GameInstance:
 		return int(self.timeleft)
 
 	def penalize(self):
+
 		self.time = self.time - self.errorPenalty
 		self.lcd.flash(1, "r")
 		self.buzzer.play("wrong")
@@ -90,9 +101,11 @@ class GameInstance:
 		print "BOOM!"
 		self.write_top("BOOOOM!!")
 		self.write_bot("")
+                self.buzzer.play("lose")
 		self.lcd.flash(5)
 		webbrowser.open("https://www.youtube.com/watch?v=wdXU4R8JBe4", new=0, autoraise=True)
 		thread.interrupt_main()
+                self.thread.join()
 		sys.exit(0)
 
 	def wire_server_code(self):
@@ -124,6 +137,12 @@ class GameInstance:
 			self.timeleft = self.time - timeDiff
 			self.get_time()
 			time.sleep(1)
+                        if(self.timeleft == self.buttontime):
+                            self.button_thread.start()
+                            print "Button Time again!"
+                        if(self.timeleft == self.buttontime2):
+                            self.button_thread2.start()
+                            print "Button Time!"
 			if(self.timeleft <= 0):
 				self.explode()
 
@@ -142,6 +161,14 @@ class GameInstance:
 				sleeptime = 0.1
 			self.buzzer.play("beep")
 			time.sleep(sleeptime)
+
+        def button_code(self):
+                print "starting button"
+                result = self.Button.start()
+                if result == 1:
+                    self.score += 50
+                elif result == 2:
+                    self.timeleft += 30
 
 	def move(self, color):
 		print "Move to defusal area!"
@@ -238,7 +265,7 @@ class GameInstance:
 
 		elif game_name == "gestures":
 			self.write_top("Gestures")
-			#self.gestures_game()
+			self.gestures_game()
                         
 		elif game_name == "wirecutting":
 			self.write_top("Wirecutting")
@@ -273,15 +300,15 @@ class GameInstance:
                 prev_result = ""
 		while(True):
 			result = self.server_wire.get_result()
-		#	if(result == "Wrong"):
-		#		self.penalize()
-                 #               result = ""
-                  #      if(result == "Right"):
-		#		self.correct()
-                 #               result = ""
-                  #      elif(result != ""):
+			if(result == "Wrong"):
+				self.penalize()
+                                result = ""
+                        if(result == "Right"):
+				self.correct()
+                                result = ""
                         if result == "Success":
                             print "success"
+                            self.write_top2(result)
                             break
                         if result != "":
                             if self.write_top2(result) == False:
@@ -292,13 +319,17 @@ class GameInstance:
 	def gestures_game(self):
 		msg = "G"+str(self.difficulty)
 		self.server_gesture.send(msg)
-		while(self.server_gesture.get_result() != "Success"):
+		while(True):
 			result = self.server_gesture.get_result()
 			if(result == "Wrong"):
 				self.penalize()
                         if(result == "Right"):
 				self.correct()
-			else:
+                        if result == "Success":
+                                print "success"
+                                self.write_top2(result)
+                                break
+			if result != "":
 				self.write_top2(result)
 		self.success()
 
@@ -307,13 +338,13 @@ class GameInstance:
 		self.server_wire.send(msg)
 		while(True):
 			result = self.server_wire.get_result()
-		#	if(result == "Wrong"):
-		#		self.penalize()
-                 #       if(result == "Right"):
-		#		self.correct()
-		#	else:
+			if(result == "Wrong"):
+				self.penalize()
+                        if(result == "Right"):
+				self.correct()
                         if result == "Success":
                             print "Success"
+                            self.write_top2(result)
                             break
                         if result != "":
                             if self.write_top2(result) == False:

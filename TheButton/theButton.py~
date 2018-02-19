@@ -18,8 +18,8 @@ class TheButton:
 		    	g = SpeechRecognition()
 		        result = g.start_bonus()
 		        return result
-                print "time over"
-	        return(0)
+                    print "time over"
+	            return(0)
 		#result = 0:no bonus, 1:add score, 2:add time
 
 if __name__ == '__main__':
