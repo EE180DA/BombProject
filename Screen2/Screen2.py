@@ -15,27 +15,37 @@ class Client:
 		self.lcd = Display()
 		self.lcd.writeTop("")
 		self.lcd.writeBot("")
+		self.code = ""
 		self.morse_thread = threading.Thread(target = self.morse, args = (code,))
 		self.morse_thread.daemon = True
 		self.morsing = False
 
 	def morse(self, code):
-		while(morsing):
-			for c in code:
+		 self.lcd.set_color("o")
+		time.sleep(1)
+		while(self.morsing):
+			for c in self.code:
 				if c == ".":
-					self.lcd.setcolor("g")
-					time.sleep(0.3)
-					self.lcd.setcolor("o")
+					self.lcd.set_color("g")
+					time.sleep(0.1)
+					self.lcd.set_color("o")
+					time.sleep(0.1)
 				if c == "-":
-					self.lcd.setcolor("g")
-					time.sleep(1)
-					self.lcd.setcolor("o")
+					self.lcd.set_color("g")
+					time.sleep(0.5)
+					self.lcd.set_color("o")
+					time.sleep(0.1)
 				if c == " ":
 					time.sleep(1)
+			time.sleep(1)
+			self.lcd.set_color("r")
+			time.sleep(2)
+			self.lcd.set_color("o")
 			time.sleep(2)
 
 
-	def startClient(self):
+
+	def startClient(self): 
 		# connect the client
 		while True:
 			received = self.client.recv(4096)
@@ -53,8 +63,13 @@ class Client:
 				self.top = "Read Morse"
 				self.bottom = "Much?"
 				self.morsing = True
-                        elif received[0] == "#":
+			elif received[0] == "#":
+				self.code = received[1:]
+				self.morsing = True
+				self.morse_thread.start()
+			elif received[0] == "#":
 				self.morsing = False
+				self.morse_thread.join()
 
 
 	def sendMessage(self, message):
