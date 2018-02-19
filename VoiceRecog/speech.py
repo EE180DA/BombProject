@@ -24,24 +24,17 @@ class SpeechRecognition:
         self.PATH = 'output'
         self.items = ['APPLE', 'BANANA', 'ORANGE', 'GRAPEFRUIT']
         self.answer = ""
+        self.pin = mraa.Gpio(8)
         
 
 
     def triggerWords(self, words, game_code):
         self.answer = self.items[game_code]
         print(self.answer)
-        #Grapefruit is unlikely to be randomly triggered by noise
-        #Difficult to detect 'keyword grapefruit' all together
-        #Thus, 'Keyword' does not need to be said if the answer is grapefruit
-        if self.answer == "GRAPEFRUIT":
-            if "GRAPEFRUIT" in words:
-                print("Correct Keyword Detected")
-                return(1)
-        #Detect keyword and then answer to complete round
-        if "KEYWORD" in words:
-            if self.answer in words:
-                print("Correct Keyword Detected")
-                return(1)
+        #Detect answer to complete round
+        if self.answer in words:
+            print("Correct Keyword Detected")
+            return(1)
 
     def triggerBonusWords(self, words):
         #result = 0:no bonus, 1:add score, 2:add time
@@ -70,6 +63,13 @@ class SpeechRecognition:
 
     def startrecording(self, game_code):
        
+        #detects button press to begin recording
+        while True:
+            if self.pin.read() == 1:
+                print("button press detected")
+                break
+            time.sleep(0.1)
+
         if not os.path.exists(self.PATH):
             os.makedirs(self.PATH)
 
@@ -104,7 +104,7 @@ class SpeechRecognition:
             rec_words = recognised.split()
 
             # Trigger Words
-            result = self.triggerBonusWords(rec_words, game_code)
+            result = self.triggerWords(rec_words, game_code)
             #Check if the correct answer was said
             if result == 1:
                 return(1)
@@ -161,7 +161,7 @@ class SpeechRecognition:
 
 if __name__ == "__main__":
     g = SpeechRecognition()
-    result = g.start_bonus()
+    result = g.startrecording(1)
     print result
     # try:
     #     output = g.startrecording(1)
