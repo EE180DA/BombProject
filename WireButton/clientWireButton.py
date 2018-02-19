@@ -168,9 +168,9 @@ class Client:
 				time.sleep(0.5)
 				if j == 5:
 					self.sendMessage("Resume Game")
-					if self.wiresDifficulty == 1
+					if self.wiresDifficulty == 1:
 						self.sendMessage("e78gp") #Change
-					elif self.wiresDifficulty == 2
+					elif self.wiresDifficulty == 2:
 						self.sendMessage("b3j9a")
 					return(1)
 			else:

@@ -51,7 +51,6 @@ class Client:
 			received = self.client.recv(4096)
 			print received
 			if received == "":
-				time.sleep(1)
 				continue
 			elif received[0] == "t":
 				self.top = received[1:]
