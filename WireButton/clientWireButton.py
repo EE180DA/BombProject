@@ -70,6 +70,7 @@ class Client:
 	def endClient(self):
 		self.client.close()
 
+
 	def setbuttonCorrectSequence(self, diff, stage_seq):
 		if diff == 0: #Easy
 			self.buttonCorrectSequence = [1, 5, 3, 0, 4, 6, 7, 2]
@@ -106,6 +107,7 @@ class Client:
 		while i < 8:
 			print "Correct button:", self.buttonCorrectSequence[i]+1
 			print "Screen display number:", self.buttonScreenDisplay[i]
+			time.sleep(2)
 			#Send screen2 display to server
 			self.sendMessage(str(self.buttonScreenDisplay[i]))
 			x = self.buttonCorrectSequence[i]
@@ -117,6 +119,7 @@ class Client:
 				#if correct button is pressed, move on to next iteration of i (next stage)
 				if mraa.Gpio(self.buttonCorrectSequence[i]).read() == 1:
 					print "Next Stage"
+					#self.sendMessage("Right")
 					time.sleep(0.5)
 					i = i + 1
 					break
@@ -126,6 +129,7 @@ class Client:
 					mraa.Gpio(self.buttonCheckSequence[(x+12)%8]).read() == 1 or mraa.Gpio(self.buttonCheckSequence[(x+13)%8]).read() == 1 or mraa.Gpio(self.buttonCheckSequence[(x+14)%8]).read() == 1 or \
 					mraa.Gpio(self.buttonCheckSequence[(x+15)%8]).read() == 1:
 					print "Incorrect Answer, Stage Reset"
+					#self.sendMessage("Wrong")
 					i = 0
 					time.sleep(0.5)
 					break
@@ -162,6 +166,10 @@ class Client:
 				time.sleep(0.5)
 				if j == 5:
 					self.sendMessage("Resume Game")
+					if self.wiresDifficulty == 1
+						self.sendMessage("e78gp") #Change
+					elif self.wiresDifficulty == 2
+						self.sendMessage("b3j9a")
 					return(1)
 			else:
 				j = 0
@@ -170,6 +178,7 @@ class Client:
 		self.selectWiresDifficulty(self.wiresDifficulty)
 		i = 0
 		while i < self.wiresNum:
+			print "Disconnect: ", self.wiresCorrect[i]
 			if self.a0.read() > 120 and self.wiresa0 == 0:
 				self.wiresFlags[i] = 0
 				if self.wiresCorrect[i] != self.wiresFlags[i]:
@@ -215,7 +224,6 @@ class Client:
 		return(1)
 
 if __name__ == '__main__':
-
 	while True:
 		try:
 			g = Client() 
@@ -227,6 +235,10 @@ if __name__ == '__main__':
 			print('Didnt connect')
 			time.sleep(1)
 
+	#Select difficulty
+
+
+	# Start the buttons game
 	if c >= 0 and c < 3:
 		print "Starting Buttons game Difficulty:" , c
 		response=g.startButtonGame()
@@ -235,6 +247,7 @@ if __name__ == '__main__':
 		else:
 			g.sendMessage("Failure")
 
+	#Start the wires game
 	c = g.startClient()
 	if c >= 3 and c < 6:
 		print "Starting Wires game Difficulty:" , c
@@ -243,7 +256,5 @@ if __name__ == '__main__':
 			g.sendMessage("Success")
 		else:
 			g.sendMessage("Failure")
-	elif c >= 6:
-		print("Client Error")
-		result = 0
+	
 	g.endClient()
