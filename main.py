@@ -17,11 +17,9 @@ from TheButton.theButton import TheButton
 
 class GameInstance:
 
-	def __init__(self, diff = -1):
-		while diff < 1 or diff > 3:
-			diff = raw_input("Please choose a difficulty level (1-3): ")
-			diff = int(diff)
-		self.difficulty = diff
+	def __init__(self):
+		self.Button = TheButton()
+                self.difficulty = self.Button.select_difficulty()
 		self.time = 300 #time left in seconds
 		self.timeleft = self.time+3
 		self.errorPenalty = 5*self.difficulty
@@ -29,8 +27,7 @@ class GameInstance:
 		self.move_time = 30/self.difficulty
 		shuffle(self.minigames)
                 self.buttontime = randint(20, 120)
-                self.buttontime2 = 295#randint (170, 280)
-                self.Button = TheButton(self.difficulty)
+                self.buttontime2 = randint (170, 280)
 		self.minigames.append('wirecutting')
 		self.thread = threading.Thread(target = self.timer, args = ())
 		self.wire_thread = threading.Thread(target = self.wire_server_code, args = ())
@@ -205,7 +202,7 @@ class GameInstance:
 		self.write_top("0")
 
 	def start_game(self):
-		#self.intro()
+		self.intro()
 		currGame = 1
 		self.thread.start()
 		self.wire_thread.start()
@@ -246,8 +243,13 @@ class GameInstance:
 		time.sleep(0.5)
 
 		print "Congratulations you've defused the bomb"
+                self.score += self.timeleft
 		self.write_top("Congratulations!")
 		self.lcd.flash(5)
+                
+                self.lcd.set_color("g")
+                self.lcd.write_top("Score: ")
+                self.lcd.write_bot(str(self.score))
 
 
 	def get_minigames(self):
