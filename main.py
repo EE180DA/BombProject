@@ -258,7 +258,7 @@ class GameInstance:
 
 	def start_minigame(self, game_name):
 		if game_name == "images":
-                        self.write_top("images")
+                        self.write_top("Images")
 			#self.image_game()
 
 		elif game_name == "buttons":
@@ -268,6 +268,10 @@ class GameInstance:
 		elif game_name == "gestures":
 			self.write_top("Gestures")
 			#self.gestures_game()
+
+		elif game_name == "voice":
+			self.write_top("Speech")
+			self.voice_game()
                         
 		elif game_name == "wirecutting":
 			self.write_top("Wirecutting")
@@ -294,7 +298,21 @@ class GameInstance:
 		if self.difficulty == 3:
 			self.server_display.send("#")
 		self.success()
-		
+	
+	def voice_game(self):
+		self.write_top("Speech")
+		v = SpeechRecognition()
+		random_num = randint(1,4)
+		game_num = self.minigames.index('voice') + 1
+
+		if self.difficulty == 1:
+			self.server_display.send(str(random_num))
+			v.startrecording(random_num)
+		elif self.difficulty == 2:
+			v.startrecording(game_num)
+		else:
+			v.startrecording(game_num)
+		self.success()
 
 	def buttons_game(self):
 		msg = "B"+str(self.difficulty)
@@ -317,7 +335,8 @@ class GameInstance:
                                 print "failed to send"
                                 self.write_top2(result)
 		self.success()
-		
+
+
 	def gestures_game(self):
 		msg = "G"+str(self.difficulty)
 		self.server_gesture.send(msg)

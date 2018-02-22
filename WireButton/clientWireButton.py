@@ -109,7 +109,7 @@ class Client:
 			print "Screen display number:", self.buttonScreenDisplay[i]
 			
 			#Send screen2 display to server, dont send if end of game
-			if self.buttonScreenDisplay[i] != 8:
+			if self.buttonScreenDisplay[i] != 8 and self.buttonScreenDisplay[i] != 0:
 				self.sendMessage(str(self.buttonScreenDisplay[i]))
 
 			x = self.buttonCorrectSequence[i]
