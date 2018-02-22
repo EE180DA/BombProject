@@ -5,7 +5,7 @@ import IMU
 
 class Response(object):
 	def __init__(self): 
-		self.g_threshold = 2500
+		self.g_threshold = 1900
 		self.idle1 = 0
 		self.idle2 = 0
 		self.idle3 = 0
@@ -19,9 +19,9 @@ class Response(object):
 		self.fcount = 0
 		self.ucount = 0
 		self.dcount = 0
-		self.nodcount = 3
-		self.shakecount = 3
-		self.hintcount = 3
+		self.nodcount = 2
+		self.shakecount = 2
+		self.hintcount = 2
 		self.imu = IMU.IMU()
 	def get(self):
 		while True:
@@ -100,7 +100,7 @@ class Response(object):
 		        self.idle3=0
 		        self.idle4=0
 		        return 2
-		    if accel_z > 1000:
+		    if accel_z > 500:
 		        #print('Up')
 		        self.tiltidle=0
 		        if self.idle5 < 20:
@@ -109,7 +109,7 @@ class Response(object):
 		        else:
 		            self.ucount=0
 		            self.idle5=0
-		    elif accel_z<-3000:
+		    elif accel_z<-500:
 		        #print('Down')
 		        self.tiltidle=0
 		        if self.idle6<20:
@@ -128,7 +128,7 @@ class Response(object):
 		        	print('Tilted. Pass the question.')
 		        	self.tiltidle=0
 		        	return 3
-		    if self.ucount>self.shakecount and self.dcount>self.shakecount:
+		    if self.ucount>self.hintcount and self.dcount>self.hintcount:
 		        # When a hint is detected, return 4
 		        print('Hint Complete')
 		        self.ucount=0

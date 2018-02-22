@@ -1,6 +1,7 @@
 import socket
 import time
 from Response import Response
+from random import shuffle
 
 class Client:
 	def __init__(self):
@@ -8,27 +9,22 @@ class Client:
 		self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		# client.connect((target, port))
 		self.client.connect(('192.168.42.1', 4999))
+		self.gesQuestions = ['0001','0010','0011','0100','0101','0110','0111','1000','1001','1010','1011','1100','1101','1111']
+		shuffle(self.gesQuestions)
 
 	def startClient(self):
 		# connect the client
 		received = self.client.recv(4096)
 		# Codewords
-		if received == "001":
+		if received == "G1":
 			return(1)
-		elif received == "010":
+		elif received == "G2":
 			return(2)
-		elif received == "011":
+		elif received == "G3":
 			return(3)
-		elif received == "100":
-			return(4)
-		elif received == "101":
-			return(5)
-		elif received == "110":
-			return(6)
-		elif received == "111":
-			return(7)
 		else: 
 			return(8)
+		print received
 	def sendMessage(self, message):
 		self.client.send(message)
 		print "Sent:", message
@@ -42,145 +38,562 @@ if __name__ == '__main__':
 	while True:
 		try:
 			g = Client() 
-			c = g.startClient()
+			d = g.startClient()
 			break
 		except KeyboardInterrupt:
 			exit()
 		except:
 			print('Didnt connect')
 			time.sleep(1)
-
-	while True: 	
-		if c == 1:
-			# For code 001, Nod is the correct answer
+	i=0
+	c=g.gesQuestions[i]
+	g.sendMessage(c) 
+	while d>0: 	
+		if c == '0001':
+			# For Q1, Nod is the correct answer
 			response=r.get()
 			if response == 1:
-				result = 1
-				g.sendMessage('Success')
-				break
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
 			elif response == 3:
-				result = 2
-				c=2
 				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
 			elif response == 4:
-				result = 3
 				g.sendMessage('Hint')
+				time.sleep(1)
 			else:
-				result = 0
-				c=2
-				g.sendMessage('Fail')
-		if c == 2:
-			# For code 010, Nod is the correct answer
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '0010':
+			# For Q2, Nod is the correct answer
 			response=r.get()
 			if response == 1:
-				result = 1
-				g.sendMessage('Success')
-				break
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
 			elif response == 3:
-				result = 2
-				c=3
 				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
 			elif response == 4:
-				result = 3
 				g.sendMessage('Hint')
+				time.sleep(1)
 			else:
-				result = 0
-				c=3
-				g.sendMessage('Fail')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
 
-		if c == 3:
-			# For code 011, Shake is the correct answer
+		if c == '0011':
+			# For Q3, Shake is the correct answer
 			response=r.get()
 			if response == 2:
-				result = 1
-				g.sendMessage('Success')
-				break
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
 			elif response == 3:
-				result = 2
-				c=4
 				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
 			elif response == 4:
-				result = 3
 				g.sendMessage('Hint')
+				time.sleep(1)
 			else:
-				result = 0
-				c=4
-				g.sendMessage('Fail')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
 
-		if c == 4:
-			# For code 100, Shake is the correct answer
+		if c == '0100':
+			# For Q4, Shake is the correct answer
 			response=r.get()
 			if response == 2:
-				result = 1
-				g.sendMessage('Success')
-				break
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
 			elif response == 3:
-				result = 2
-				c=5
 				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
 			elif response == 4:
-				result = 3
 				g.sendMessage('Hint')
+				time.sleep(1)
 			else:
-				result = 0
-				c=5
-				g.sendMessage('Fail')
-		if c == 5:
-			# For code 101, Nod is the correct answer
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '0101':
+			# For Q5, Nod is the correct answer
 			response=r.get()
 			if response == 1:
-				result = 1
-				g.sendMessage('Success')
-				break
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
 			elif response == 3:
-				result = 2
-				c=6
 				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
 			elif response == 4:
-				result = 3
 				g.sendMessage('Hint')
+				time.sleep(1)
 			else:
-				result = 0
-				c=6
-				g.sendMessage('Fail')
-		if c == 6:
-			# For code 110, Shake is the correct answer
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '0110':
+			# For Q6, Shake is the correct answer
 			response=r.get()
 			if response == 2:
-				result = 1
-				g.sendMessage('Success')
-				break
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
 			elif response == 3:
-				result = 2
-				c=7
 				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
 			elif response == 4:
-				result = 3
 				g.sendMessage('Hint')
+				time.sleep(1)
 			else:
-				result = 0
-				c=7
-				g.sendMessage('Fail')
-		if c == 7:
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '0111':
+			# For Q7, Nod is the correct answer
+			response=r.get()
+			if response == 1:
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
+			elif response == 3:
+				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
+			elif response == 4:
+				g.sendMessage('Hint')
+				time.sleep(1)
+			else:
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '1000':
+			# For Q8, Nod is the correct answer
+			response=r.get()
+			if response == 1:
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
+			elif response == 3:
+				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
+			elif response == 4:
+				g.sendMessage('Hint')
+				time.sleep(1)
+			else:
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '1001':
+			# For Q9, Nod is the correct answer
+			response=r.get()
+			if response == 2:
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
+			elif response == 3:
+				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
+			elif response == 4:
+				g.sendMessage('Hint')
+				time.sleep(1)
+			else:
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '1010':
+			# For Q10, Nod is the correct answer
+			response=r.get()
+			if response == 1:
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
+			elif response == 3:
+				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
+			elif response == 4:
+				g.sendMessage('Hint')
+				time.sleep(1)
+			else:
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '1011':
+			# For code 111, Nod is the correct answer
+			response=r.get()
+			if response == 2:
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
+			elif response == 3:
+				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
+			elif response == 4:
+				g.sendMessage('Hint')
+				time.sleep(1)
+			else:
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '1100':
 			# For code 111, Nod is the correct answer
 			response=r.get()
 			if response == 1:
-				result = 1
-				g.sendMessage('Success')
-				break
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
 			elif response == 3:
-				result = 2
-				c=1
 				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
 			elif response == 4:
-				result = 3
 				g.sendMessage('Hint')
+				time.sleep(1)
 			else:
-				result = 0
-				c=1
-				g.sendMessage('Fail')
-		if c == 8:
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '1101':
+			# For code 111, Nod is the correct answer
+			response=r.get()
+			if response == 2:
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
+			elif response == 3:
+				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
+			elif response == 4:
+				g.sendMessage('Hint')
+				time.sleep(1)
+			else:
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '1110':
+			# For code 111, Nod is the correct answer
+			response=r.get()
+			if response == 1:
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
+			elif response == 3:
+				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
+			elif response == 4:
+				g.sendMessage('Hint')
+				time.sleep(1)
+			else:
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if c == '1111':
+			# For code 111, Nod is the correct answer
+			response=r.get()
+			if response == 2:
+				d-=1
+				if d<=0: 
+					break
+				g.sendMessage('Right')
+				time.sleep(1)
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage(c)
+			elif response == 3:
+				g.sendMessage('Pass')
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				time.sleep(1)
+				g.sendMessage(c)
+			elif response == 4:
+				g.sendMessage('Hint')
+				time.sleep(1)
+			else:
+				if i<7:
+					i+=1
+				else: 
+					i=0
+				c=g.gesQuestions[i]
+				g.sendMessage('Wrong')
+				time.sleep(1)
+				g.sendMessage(c)
+		if d == 8:
 			print('Client Error')
 			result = 0
 			break
+	g.sendMessage('Success')
 	g.endClient()
