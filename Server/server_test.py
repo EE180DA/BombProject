@@ -1,6 +1,7 @@
 import socket
 import threading
 import time
+
 class Server:
     #parameters for the server
     client_sock = None
@@ -12,7 +13,7 @@ class Server:
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind((self.bind_ip, self.bind_port))
         self.server.listen(5)  # max backlog of connections
-        self.result = ""
+        self.result = ["", ""]
         print 'Listening on {}:{}'.format(self.bind_ip, self.bind_port)
 
     #Sends a message to the client to indicate the start of a game, then received the result of that game    
@@ -21,14 +22,18 @@ class Server:
         while True:
             msg = client_socket.recv(1024)
             if msg != "":
-                self.result = msg
+                if self.result[0] == "":
+                    self.result[0] = msg
+                else:
+                    self.result[1] = msg
             time.sleep(0.1)
 
     def get_result(self):
-        res = self.result
+        res = self.result[0]
+        self.result[0] = self.result[1]
+        self.result[1] = ""
         if res != "":
             print res
-        self.result = ""
         return res
 
     #Starts the server, waits for a connection with a client, receives the result of the game(Fail or Success)
@@ -36,7 +41,8 @@ class Server:
         while True:
             self.client_sock, address = self.server.accept()
             print 'Accepted connection from {}:{}'.format(address[0], address[1])
-            result = self.handle_client_connection(self.client_sock, game_code)                              
+            result = self.handle_client_connection(self.client_sock, game_code)             
+            print result                            
             return result
             
 
@@ -47,8 +53,6 @@ class Server:
         else:
             return False
             
-    def set_result(self, code):
-        self.result =  code
         
 if __name__ == '__main__':
     server_number = 0

@@ -202,7 +202,7 @@ class GameInstance:
 		self.write_top("0")
 
 	def start_game(self):
-		#self.intro()
+		self.intro()
 		currGame = 1
 		self.thread.start()
 		self.wire_thread.start()
@@ -243,8 +243,13 @@ class GameInstance:
 		time.sleep(0.5)
 
 		print "Congratulations you've defused the bomb"
+                self.score += self.timeleft
 		self.write_top("Congratulations!")
 		self.lcd.flash(5)
+                
+                self.lcd.set_color("g")
+                self.lcd.write_top("Score: ")
+                self.lcd.write_bot(str(self.score))
 
 
 	def get_minigames(self):
@@ -262,7 +267,7 @@ class GameInstance:
 
 		elif game_name == "gestures":
 			self.write_top("Gestures")
-			self.gestures_game()
+			#self.gestures_game()
                         
 		elif game_name == "wirecutting":
 			self.write_top("Wirecutting")

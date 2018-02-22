@@ -267,7 +267,7 @@ class GameInstance:
 
 		elif game_name == "gestures":
 			self.write_top("Gestures")
-			self.gestures_game()
+			#self.gestures_game()
                         
 		elif game_name == "wirecutting":
 			self.write_top("Wirecutting")

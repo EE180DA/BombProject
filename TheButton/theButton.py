@@ -56,7 +56,7 @@ class TheButton:
 			time.sleep(0.2)
                 self.lcd.write_top("Starting")
                 self.lcd.set_color("o")
-                time.delay(1)
+                time.sleep(1)
 		return self.difficulty
 
 

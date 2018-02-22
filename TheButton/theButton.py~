@@ -62,5 +62,5 @@ class TheButton:
 
 if __name__ == '__main__':
 	b = TheButton()
-	result = b.select_difficulty()
+	result = b.start()
 	print result
