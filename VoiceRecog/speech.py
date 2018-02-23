@@ -82,7 +82,7 @@ class SpeechRecognition:
             print("* recording")
             frames = []
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
-                    data = stream.read(self.CHUNK)
+                    data = stream.read(self.CHUNK, exception_on_overflow=False)
                     frames.append(data)
             print("* done recording")
             stream.stop_stream()
@@ -130,7 +130,7 @@ class SpeechRecognition:
         print("* recording")
         frames = []
         for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_BONUS_SECONDS)):
-                data = stream.read(self.CHUNK)
+                data = stream.read(self.CHUNK, exception_on_overflow=False)
                 frames.append(data)
         print("* done recording")
         stream.stop_stream()
