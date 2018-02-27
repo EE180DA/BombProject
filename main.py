@@ -99,7 +99,7 @@ class GameInstance:
 		self.write_top("BOOOOM!!")
 		self.write_bot("")
                 self.buzzer.play("lose")
-		self.lcd.flash(5)
+		self.lcd.flash(5, 'r')
 		webbrowser.open("https://www.youtube.com/watch?v=wdXU4R8JBe4", new=0, autoraise=True)
 		thread.interrupt_main()
                 self.thread.join()
@@ -245,7 +245,7 @@ class GameInstance:
 		print "Congratulations you've defused the bomb"
                 self.score += self.timeleft
 		self.write_top("Congratulations!")
-		self.lcd.flash(5)
+		self.lcd.flash(5, "g")
                 
                 self.lcd.set_color("g")
                 self.lcd.write_top("Score: ")
@@ -263,7 +263,7 @@ class GameInstance:
 
 		elif game_name == "buttons":
 			self.write_top("Buttons")
-			self.buttons_game()
+			#self.buttons_game()
 
 		elif game_name == "gestures":
 			self.write_top("Gestures")
@@ -275,7 +275,7 @@ class GameInstance:
                         
 		elif game_name == "wirecutting":
 			self.write_top("Wirecutting")
-			self.wires_game()
+			#self.wires_game()
 				
 
 	def image_game(self):
@@ -303,6 +303,7 @@ class GameInstance:
 		self.write_top("Speech")
 		v = SpeechRecognition()
 		random_num = randint(1,4)
+                print "random number: %d" % random_num
 		index_num = self.minigames.index('voice')
 		game_num = 0
 

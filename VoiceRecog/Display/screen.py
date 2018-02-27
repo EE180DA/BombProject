@@ -24,7 +24,7 @@ class Display:
                     b=0
                 setRGB(r,g,b)
                 time.sleep(0.1)
-                setRGB(0,0,0)
+                setRGB(255,255,255)
                 time.sleep(0.1)
                 timer -= 0.2
 
@@ -38,9 +38,9 @@ class Display:
                 g=255
                 b=0
             elif (color == "o"):
-                r=0
-                g=0
-                b=0
+                r=255
+                g=255
+                b=255
             setRGB(r,g,b)
 
 
