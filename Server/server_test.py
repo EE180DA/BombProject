@@ -24,8 +24,10 @@ class Server:
             if msg != "":
                 if self.result[0] == "":
                     self.result[0] = msg
+                    client_socket.send('ACK')
                 else:
                     self.result[1] = msg
+                    client_socket.send('ACK')
             time.sleep(0.1)
 
     def get_result(self):
