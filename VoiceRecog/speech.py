@@ -4,6 +4,9 @@ import os
 import sys
 import time
 
+#import screen display
+from Display.screen import Display
+
 # Import things for pocketsphinx
 import pyaudio
 import wave
@@ -25,6 +28,7 @@ class SpeechRecognition:
         self.items = ['APPLE', 'BANANA', 'ORANGE', 'GRAPEFRUIT']
         self.answer = ""
         self.pin = mraa.Gpio(8)
+        self.lcd = Display()
         
 
 
@@ -80,6 +84,7 @@ class SpeechRecognition:
             # Record audio
             stream = p.open(format=self.FORMAT, channels=self.CHANNELS, rate=self.RATE, input=True, frames_per_buffer=self.CHUNK)
             print("* recording")
+            lcd.setcolor('g')
             frames = []
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
                     data = stream.read(self.CHUNK, exception_on_overflow=False)
@@ -87,6 +92,7 @@ class SpeechRecognition:
             print("* done recording")
             stream.stop_stream()
             stream.close()
+            lcd.setcolor('o')
             #p.terminate()
 
             # Write .wav file
@@ -128,6 +134,7 @@ class SpeechRecognition:
         # Record audio
         stream = p.open(format=self.FORMAT, channels=self.CHANNELS, rate=self.RATE, input=True, frames_per_buffer=self.CHUNK)
         print("* recording")
+        lcd.setcolor('g')
         frames = []
         for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_BONUS_SECONDS)):
                 data = stream.read(self.CHUNK, exception_on_overflow=False)
@@ -135,6 +142,7 @@ class SpeechRecognition:
         print("* done recording")
         stream.stop_stream()
         stream.close()
+        lcd.setcolor('o')
         #p.terminate()
 
         # Write .wav file

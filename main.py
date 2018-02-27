@@ -303,14 +303,19 @@ class GameInstance:
 		self.write_top("Speech")
 		v = SpeechRecognition()
 		random_num = randint(1,4)
-		game_num = self.minigames.index('voice') + 1
+		index_num = self.minigames.index('voice')
+		game_num = 0
+
 
 		if self.difficulty == 1:
 			self.server_display.send(str(random_num))
 			v.startrecording(random_num)
 		elif self.difficulty == 2:
-			v.startrecording(game_num)
+			v.startrecording(index_num)
 		else:
+			self.server_display.send(str(random_num))	
+			game_num = ((4-index_num)*random_num)%4
+			print game_num
 			v.startrecording(game_num)
 		self.success()
 
