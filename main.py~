@@ -99,7 +99,7 @@ class GameInstance:
 		self.write_top("BOOOOM!!")
 		self.write_bot("")
                 self.buzzer.play("lose")
-		self.lcd.flash(5)
+		self.lcd.flash(5, 'r')
 		webbrowser.open("https://www.youtube.com/watch?v=wdXU4R8JBe4", new=0, autoraise=True)
 		thread.interrupt_main()
                 self.thread.join()
@@ -161,11 +161,15 @@ class GameInstance:
 
         def button_code(self):
                 print "starting button"
+                self.lcd.set_color("y")
                 result = self.Button.start()
+                self.lcd.set_color("o")
                 if result == 1:
                     self.score += 50
+                    self.lcd.flash(2, "g")
                 elif result == 2:
                     self.timeleft += 30
+                    self.lcd.flash(2, "g")
 
 	def move(self, color):
 		print "Move to defusal area!"
@@ -245,7 +249,7 @@ class GameInstance:
 		print "Congratulations you've defused the bomb"
                 self.score += self.timeleft
 		self.write_top("Congratulations!")
-		self.lcd.flash(5)
+		self.lcd.flash(5, "g")
                 
                 self.lcd.set_color("g")
                 self.lcd.write_top("Score: ")
@@ -258,16 +262,16 @@ class GameInstance:
 
 	def start_minigame(self, game_name):
 		if game_name == "images":
-                        self.write_top("Images")
-			#self.image_game()
+                        #self.write_top("Images")
+			self.image_game()
 
 		elif game_name == "buttons":
 			self.write_top("Buttons")
-			#self.buttons_game()
+			self.buttons_game()
 
 		elif game_name == "gestures":
 			self.write_top("Gestures")
-			#self.gestures_game()
+			self.gestures_game()
 
 		elif game_name == "voice":
 			self.write_top("Speech")
@@ -275,7 +279,7 @@ class GameInstance:
                         
 		elif game_name == "wirecutting":
 			self.write_top("Wirecutting")
-			#self.wires_game()
+			self.wires_game()
 				
 
 	def image_game(self):
@@ -303,6 +307,7 @@ class GameInstance:
 		self.write_top("Speech")
 		v = SpeechRecognition()
 		random_num = randint(1,4)
+                print "random number: %d" % random_num
 		index_num = self.minigames.index('voice')
 		game_num = 0
 
@@ -325,15 +330,17 @@ class GameInstance:
                 prev_result = ""
 		while(True):
 			result = self.server_wire.get_result()
-			if(result == "Wrong"):
-				self.penalize()
+			if(result[1] == "W"):
+                                self.write_top2(result[2])
+                                self.penalize()
                                 result = ""
-                        if(result == "Right"):
+                        if(result[1] == "R"):
+                                self.write_top2(result[2])
 				self.correct()
                                 result = ""
                         if result == "Success":
-                            print "success"
-                            self.write_top2(result)
+                            print "Success Received"
+                            self.write_top2("Success")
                             break
                         if result != "":
                             if self.write_top2(result) == False:

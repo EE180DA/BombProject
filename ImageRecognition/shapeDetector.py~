@@ -66,9 +66,12 @@ class ShapeDetector:
 		elif curLen == 4:
 			# compute the bounding box of the contour and use the
 			# bounding box to compute the aspect ratio
+			(x, y, w, h) = cv2.boundingRect(approx)
+			ar = w / float(h)
+ 
 			# a square will have an aspect ratio that is approximately
 			# equal to one, otherwise, the shape is a rectangle
-			shape = "rectangle"
+			shape = "square" if ar >= 0.80 and ar <= 1.2 else "rectangle"
  
 		# if the shape is a pentagon, it will have 5 vertices
 		elif curLen == 5:
@@ -77,8 +80,10 @@ class ShapeDetector:
 			shape = "hexagon"
 		elif curLen == 7:
 			shape = "heptagon"
-                else:
-                    shape = "UNKNOWN"
+ 
+		# otherwise, we assume the shape is a circle
+		else:
+			shape = "circle"
  
 		# return the name of the shape
 		return shape

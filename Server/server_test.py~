@@ -41,7 +41,8 @@ class Server:
         while True:
             self.client_sock, address = self.server.accept()
             print 'Accepted connection from {}:{}'.format(address[0], address[1])
-            result = self.handle_client_connection(self.client_sock, game_code)             print result                            
+            result = self.handle_client_connection(self.client_sock, game_code)             
+            print result                            
             return result
             
 

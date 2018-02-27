@@ -161,11 +161,15 @@ class GameInstance:
 
         def button_code(self):
                 print "starting button"
+                self.lcd.set_color("y")
                 result = self.Button.start()
+                self.lcd.set_color("o")
                 if result == 1:
                     self.score += 50
+                    self.lcd.flash(2, "g")
                 elif result == 2:
                     self.timeleft += 30
+                    self.lcd.flash(2, "g")
 
 	def move(self, color):
 		print "Move to defusal area!"
@@ -259,15 +263,15 @@ class GameInstance:
 	def start_minigame(self, game_name):
 		if game_name == "images":
                         self.write_top("Images")
-			#self.image_game()
+			self.image_game()
 
 		elif game_name == "buttons":
 			self.write_top("Buttons")
-			#self.buttons_game()
+			self.buttons_game()
 
 		elif game_name == "gestures":
 			self.write_top("Gestures")
-			#self.gestures_game()
+			self.gestures_game()
 
 		elif game_name == "voice":
 			self.write_top("Speech")
@@ -275,7 +279,7 @@ class GameInstance:
                         
 		elif game_name == "wirecutting":
 			self.write_top("Wirecutting")
-			#self.wires_game()
+			self.wires_game()
 				
 
 	def image_game(self):
@@ -326,15 +330,17 @@ class GameInstance:
                 prev_result = ""
 		while(True):
 			result = self.server_wire.get_result()
-			if(result == "Wrong"):
-				self.penalize()
+			if(result[1] == "W"):
+                                self.write_top2(result[2])
+                                self.penalize()
                                 result = ""
-                        if(result == "Right"):
+                        if(result[1] == "R"):
+                                self.write_top2(result[2])
 				self.correct()
                                 result = ""
                         if result == "Success":
-                            print "success"
-                            self.write_top2(result)
+                            print "Success Received"
+                            self.write_top2("Success")
                             break
                         if result != "":
                             if self.write_top2(result) == False:

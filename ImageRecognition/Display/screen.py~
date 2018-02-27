@@ -27,7 +27,6 @@ class Display:
                 setRGB(0,0,0)
                 time.sleep(0.1)
                 timer -= 0.2
-            setRGB(255, 255, 255)
 
         def set_color(self, color):
             if (color == "r"):
@@ -39,9 +38,9 @@ class Display:
                 g=255
                 b=0
             elif (color == "o"):
-                r=255
-                g=255
-                b=255
+                r=0
+                g=0
+                b=0
             setRGB(r,g,b)
 
 

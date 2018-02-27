@@ -24,9 +24,10 @@ class Display:
                     b=0
                 setRGB(r,g,b)
                 time.sleep(0.1)
-                setRGB(255,255,255)
+                setRGB(0,0,0)
                 time.sleep(0.1)
                 timer -= 0.2
+            setRGB(255, 255, 255)
 
         def set_color(self, color):
             if (color == "r"):

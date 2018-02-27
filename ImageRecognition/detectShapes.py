@@ -1,5 +1,6 @@
 from shapeDetector import ShapeDetector
 from colorDetector import ColorDetector
+from Display.screen import Display
 import imutils
 import cv2
 import numpy as np 
@@ -9,18 +10,26 @@ import random
 class DetectShapes:
 
 	def __init__ (self):
-		self.shapes = ["triangle", "square", "pentagon", "hexagon", "heptagon"]
-		self.shapes_morse = {"triangle" : "- .-. ..", "square" : "... --.- ..-", "pentagon" : ".--. . -. ", "hexagon" : ".... . -..-", "heptagon" : ".... . .--."}
+		self.shapes = ["triangle", "rectangle", "pentagon", "hexagon"]
+		self.shapes_morse = {"triangle" : "- .-. ..", "rectangle" : ".-. . -.-.", "pentagon" : ".--. . -. ", "hexagon" : ".... . -..-"}
 		self.colors = ["red", "blue", "green", "black", "brown", "purple", "orange"]
 		self.colors_morse =  {"red" : ".-. . -..", "blue" : "-... .-.. ..-", "green" : "--. .-. .", "black" : "-... .-.. .-", "brown" : "-... .-. ---", "purple" : ".--. ..- .-.", "orange" : "--- .-. .-"}
+                self.target_col = self.choose_target_color()
+                self.target_sha = self.choose_target_shape()
+                self.lcd = Display()
 
+        def get_target_shape(self):
+                return self.target_sha
 
-	def get_target_shape(self):
-		index = random.randint(0,4)
+        def get_target_color(self):
+                return self.target_col
+
+	def choose_target_shape(self):
+		index = random.randint(0,3)
                 print self.shapes[index]
 		return self.shapes[index]
 
-	def get_target_color(self):
+	def choose_target_color(self):
 		index = random.randint(0,6)
                 print self.colors[index]
 		return self.colors[index]
@@ -80,13 +89,15 @@ class DetectShapes:
 			 		cv2.putText(resized, color, (cX, cY-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 					# show the output image
                                         print color + " " + shape
-					if shape == self.get_target_shape and color == self.get_target_color:
+					if shape == self.target_sha and color == self.target_col:
 						detected = True
 						# print "detected"
 				if detected:
 					detectCount += 1
+                                        self.lcd.set_color("g")
 				else:
 					detectCount = 0
+                                        self.lcd.set_color("o")
 				#print detectCount
 				if detectCount > 9:
 					fullyDetected = True
@@ -107,9 +118,9 @@ class DetectShapes:
 if __name__ == '__main__':
 	d = DetectShapes()
 	color = d.get_target_color()
-	print color
+        print "color is: %s" % color
 	print d.get_color_morse(color)
 	shape = d.get_target_shape()
 	print shape
 	print d.get_shape_morse(shape)
-
+        d.start_minigame()
