@@ -144,7 +144,7 @@ class Client:
 			self.wiresCorrect = [3, 0, 0, 0, 0]
 		elif diff == 1: #Medium
 			self.wiresNum = 3
-			self.sendMessage("e78gp")
+			self.sendMessage("e78ip")
 			self.wiresCorrect = [4, 1, 3, 0, 0]
 		elif diff == 2: #Hard
 			self.wiresNum = 5
