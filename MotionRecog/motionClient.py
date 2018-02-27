@@ -27,6 +27,14 @@ class Client:
 		print received
 	def sendMessage(self, message):
 		self.client.send(message)
+		while True:
+			received = self.client.recv(4096)
+			time.sleep(0.1)
+			if received == "ACK":
+				break
+			else:
+				print('Message not sent')
+				self.client.send(message)
 		print "Sent:", message
 
 
@@ -340,7 +348,7 @@ if __name__ == '__main__':
 				time.sleep(1)
 				g.sendMessage(c)
 		if c == '1001':
-			# For Q9, Nod is the correct answer
+			# For Q9, Shake is the correct answer
 			response=r.get()
 			if response == 2:
 				d-=1
@@ -412,7 +420,7 @@ if __name__ == '__main__':
 				time.sleep(1)
 				g.sendMessage(c)
 		if c == '1011':
-			# For code 111, Nod is the correct answer
+			# For Q11, Shake is the correct answer
 			response=r.get()
 			if response == 2:
 				d-=1
@@ -448,7 +456,7 @@ if __name__ == '__main__':
 				time.sleep(1)
 				g.sendMessage(c)
 		if c == '1100':
-			# For code 111, Nod is the correct answer
+			# For code Q12, Nod is the correct answer
 			response=r.get()
 			if response == 1:
 				d-=1
@@ -484,7 +492,7 @@ if __name__ == '__main__':
 				time.sleep(1)
 				g.sendMessage(c)
 		if c == '1101':
-			# For code 111, Nod is the correct answer
+			# For code Q13, Shake is the correct answer
 			response=r.get()
 			if response == 2:
 				d-=1
@@ -520,7 +528,7 @@ if __name__ == '__main__':
 				time.sleep(1)
 				g.sendMessage(c)
 		if c == '1110':
-			# For code 111, Nod is the correct answer
+			# For Q14, Nod is the correct answer
 			response=r.get()
 			if response == 1:
 				d-=1
@@ -556,7 +564,7 @@ if __name__ == '__main__':
 				time.sleep(1)
 				g.sendMessage(c)
 		if c == '1111':
-			# For code 111, Nod is the correct answer
+			# For Q15, Shake is the correct answer
 			response=r.get()
 			if response == 2:
 				d-=1

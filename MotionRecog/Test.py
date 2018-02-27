@@ -5,7 +5,7 @@ import IMU
 
 class Response(object):
 	def __init__(self): 
-		self.g_threshold = 2500
+		self.g_threshold = 1900
 		self.idle1 = 0
 		self.idle2 = 0
 		self.idle3 = 0
@@ -19,9 +19,9 @@ class Response(object):
 		self.fcount = 0
 		self.ucount = 0
 		self.dcount = 0
-		self.nodcount = 3
-		self.shakecount = 3
-		self.hintcount = 3
+		self.nodcount = 2
+		self.shakecount = 2
+		self.hintcount = 2
 		self.imu = IMU.IMU()
 	def get(self):
 		while True:
@@ -167,15 +167,5 @@ if __name__ == '__main__':
 			break
 		else:
 			print('Please try again. Try tilting it faster, then holding it for 2 seconds')
-			time.sleep(1)
-	while True:
-		print('Do a hint')
-		response=r.get()
-		if response==4:
-			print('Hint detected. Good job!')
-			time.sleep(1)
-			break
-		else:
-			print('Please try again. Shake up and down vigorously')
-			time.sleep(1)
+			time.sleep(1)=
 	print('Calibration complete.')
