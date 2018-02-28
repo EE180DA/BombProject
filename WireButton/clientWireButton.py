@@ -33,7 +33,6 @@ class Client:
 		self.wiresa2 = 0
 		self.wiresa3 = 0
 		self.wiresa4 = 0
-		
 
 	def startClient(self):
 		# connect the client
@@ -65,11 +64,19 @@ class Client:
 		
 	def sendMessage(self, message):
 		self.client.send(message)
+		while True:
+			received = self.client.recv(4096)
+			time.sleep(0.3)
+			if received == "ACK":
+				print "Acknowledged"
+				break
+			else:
+				print('Message not sent')
+				self.client.send(message)
 		print "Sent:", message
 
 	def endClient(self):
 		self.client.close()
-
 
 	def setbuttonCorrectSequence(self, diff, stage_seq):
 		if diff == 0: #Easy
@@ -104,35 +111,41 @@ class Client:
 	def startButtonGame(self):
 		self.setbuttonCorrectSequence(self.button_diff, 4)
 		i = 0
+		self.sendMessage(" "+str(self.buttonScreenDisplay[i]))
 		while i < 8:
 			print "Correct button:", self.buttonCorrectSequence[i]+1
 			print "Screen display number:", self.buttonScreenDisplay[i]
 			
 			#Send screen2 display to server, dont send if end of game
-			if self.buttonScreenDisplay[i] != 8 and self.buttonScreenDisplay[i] != 0:
-				self.sendMessage(str(self.buttonScreenDisplay[i]))
+			#if self.buttonScreenDisplay[i] != 8 and self.buttonScreenDisplay[i] != 0:
+			#	self.sendMessage(str(self.buttonScreenDisplay[i]))
 
 			x = self.buttonCorrectSequence[i]
+
 			#if medium difficiulty, only 4 button presses are required
-			if self.button_diff == 1:
-				if i >= 4:
-					break			
+			if self.button_diff == 1 and i >= 4:
+				break
+			
 			while True:
 				#if correct button is pressed, move on to next iteration of i (next stage)
 				if mraa.Gpio(self.buttonCorrectSequence[i]).read() == 1:
 					print "Next Stage"
-					self.sendMessage("Right")
-					time.sleep(0.5)
 					i = i + 1
+					if i == 8 or self.buttonScreenDisplay[i] == 8:
+						break
+					else:
+						self.sendMessage("R"+str(self.buttonScreenDisplay[i]))
+					time.sleep(0.5)
 					break
 				time.sleep(0.2)
+
 				#if incorrect button is pressed, reset back to the first stage (subtract time if needed)
 				if mraa.Gpio(self.buttonCheckSequence[(x+9)%8]).read() == 1 or mraa.Gpio(self.buttonCheckSequence[(x+10)%8]).read() == 1 or mraa.Gpio(self.buttonCheckSequence[(x+11)%8]).read() == 1 or \
 					mraa.Gpio(self.buttonCheckSequence[(x+12)%8]).read() == 1 or mraa.Gpio(self.buttonCheckSequence[(x+13)%8]).read() == 1 or mraa.Gpio(self.buttonCheckSequence[(x+14)%8]).read() == 1 or \
 					mraa.Gpio(self.buttonCheckSequence[(x+15)%8]).read() == 1:
 					print "Incorrect Answer, Stage Reset"
-					self.sendMessage("Wrong")
 					i = 0
+					self.sendMessage("W"+str(self.buttonScreenDisplay[i]))
 					time.sleep(0.5)
 					break
 		print "Success"
@@ -169,7 +182,7 @@ class Client:
 				if j == 5:
 					self.sendMessage("Resume Game")
 					if self.wiresDifficulty == 1:
-						self.sendMessage("e78gp") #Change
+						self.sendMessage("e78ip")
 					elif self.wiresDifficulty == 2:
 						self.sendMessage("b3j9a")
 					return(1)
