@@ -11,11 +11,11 @@ class Client:
 		self.client.connect(('192.168.42.1', 3999))
 
 		#Button Inits
-		random.seed()
+		#random.seed()
 		self.buttonCorrectSequence = [0, 0, 0, 0, 0, 0, 0, 0]
 		self.buttonCheckSequence = [0, 1, 2, 3, 4, 5, 6, 7]
 		self.buttonScreenDisplay = [0, 0, 0, 0, 0, 0, 0, 0]
-		self.StageSequence = randint(1, 4)
+		self.StageSequence = 0
 		self.button_diff = 0
 
 		#Wire Inits
@@ -98,7 +98,7 @@ class Client:
 		elif diff == 2: #Hard
 			if stage_seq == 1: #Stage Display numbers 3, 1, 4, 2, 2 CHECKED
 				self.buttonCorrectSequence = [1, 2, 0, 7, 3, 6, 0, 6]
-				self.buttonScreenDisplay = [3, 1, 4, 4, 8, 8, 8, 8]
+				self.buttonScreenDisplay = [3, 1, 4, 4, 2, 2, 2, 2]
 			elif stage_seq == 2: #Stage Display numbers 2, 4, 1, 3, 3 CHECKED
 				self.buttonCorrectSequence = [6, 4, 5, 4, 6, 1, 6, 6]
 				self.buttonScreenDisplay = [2, 4, 1, 1, 3, 3, 3, 3]
@@ -110,6 +110,8 @@ class Client:
 				self.buttonScreenDisplay = [4, 3, 2, 2, 1, 1, 4, 4]
 				
 	def startButtonGame(self):
+		random.seed()
+		self.StageSequence = randint(1,4)
 		self.setbuttonCorrectSequence(self.button_diff, self.StageSequence)
 		i = 0
 		self.sendMessage(" "+str(self.buttonScreenDisplay[i]))
