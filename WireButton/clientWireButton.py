@@ -11,6 +11,7 @@ class Client:
 		self.client.connect(('192.168.42.1', 3999))
 
 		#Button Inits
+		random.seed()
 		self.buttonCorrectSequence = [0, 0, 0, 0, 0, 0, 0, 0]
 		self.buttonCheckSequence = [0, 1, 2, 3, 4, 5, 6, 7]
 		self.buttonScreenDisplay = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -109,7 +110,7 @@ class Client:
 				self.buttonScreenDisplay = [4, 3, 2, 2, 1, 1, 4, 4]
 				
 	def startButtonGame(self):
-		self.setbuttonCorrectSequence(self.button_diff, 4)
+		self.setbuttonCorrectSequence(self.button_diff, self.StageSequence)
 		i = 0
 		self.sendMessage(" "+str(self.buttonScreenDisplay[i]))
 		while i < 8:
@@ -251,7 +252,6 @@ if __name__ == '__main__':
 			time.sleep(1)
 
 	#Select difficulty
-
 
 	# Start the buttons game
 	if c >= 0 and c < 3:
