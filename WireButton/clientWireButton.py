@@ -1,7 +1,7 @@
 import socket
 import time
 import mraa
-from random import randint
+from random import randint, seed
 
 class Client:
 	def __init__(self):
@@ -110,7 +110,7 @@ class Client:
 				self.buttonScreenDisplay = [4, 3, 2, 2, 1, 1, 4, 4]
 				
 	def startButtonGame(self):
-		random.seed()
+		seed()
 		self.StageSequence = randint(1,4)
 		self.setbuttonCorrectSequence(self.button_diff, self.StageSequence)
 		i = 0
