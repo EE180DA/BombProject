@@ -5,7 +5,7 @@ import IMU
 
 class Response(object):
 	def __init__(self): 
-		self.g_threshold = 1900
+		self.g_threshold = 1000
 		self.idle1 = 0
 		self.idle2 = 0
 		self.idle3 = 0
@@ -27,7 +27,6 @@ class Response(object):
 		while True:
 		    # Grab (x, y, z) readings for gyro, mag and accelerometer
 		    gyro, mag, accel = self.imu.read()
-
 		    # Unpack tuples
 		    gyro_x, gyro_y, gyro_z = gyro
 		    mag_x, mag_y, mag_z = mag
@@ -67,7 +66,7 @@ class Response(object):
 		        
 		    if self.bcount>self.nodcount and self.fcount>self.nodcount:
 		        # When a nod is detected, return 1
-		        print('Nod Complete')
+		        #print('Nod Complete')
 		        self.fcount=0
 		        self.bcount=0
 		        self.idle1=0
@@ -94,50 +93,53 @@ class Response(object):
 		        self.idle4+=1
 		    if self.lcount>self.shakecount and self.rcount>self.shakecount:
 		        # When a shake is detected, return 2
-		        print('Shake Complete')
+		        #print('Shake Complete')
 		        self.rcount=0
 		        self.lcount=0
 		        self.idle3=0
 		        self.idle4=0
 		        return 2
-		    if accel_z > 500:
-		        #print('Up')
-		        self.tiltidle=0
-		        if self.idle5 < 20:
-		            self.ucount+=1
-		            self.idle5=0
-		        else:
-		            self.ucount=0
-		            self.idle5=0
-		    elif accel_z<-500:
-		        #print('Down')
-		        self.tiltidle=0
-		        if self.idle6<20:
-		            self.dcount+=1
-		            self.idle6=0
-		        else:
-		            self.dcount=0
-		            self.idle6=0
 		    else:
 		        self.idle5+=1
 		        self.idle6+=1
 		        if self.tiltidle>0:
 		        	self.tiltidle+=1
-		        # When a tilt is detected, return 3
 		        if self.tiltidle>20:
-		        	print('Tilted. Pass the question.')
+		        	#print('Tilted')
 		        	self.tiltidle=0
 		        	return 3
-		    if self.ucount>self.hintcount and self.dcount>self.hintcount:
-		        # When a hint is detected, return 4
-		        print('Hint Complete')
-		        self.ucount=0
-		        self.dcount=0
-		        self.idle5=0
-		        self.idle6=0
-		        return 4
 		    time.sleep(0.05)
 
 if __name__ == '__main__':
 	r=Response()
-	r.get()
+	while True:
+		print('Do a nod')
+		response=r.get()
+		if response==1:
+			print('Nod Detected. Good job!')
+			time.sleep(1)
+			break
+		else: 
+			print('Please try again. Make sure to nod up and down more than 2 times')
+			time.sleep(1)
+	while True:
+		print('Do a shake')
+		response=r.get()
+		if response==2:
+			print('Shake detected. Good job!')
+			time.sleep(1)
+			break
+		else: 
+			print('Please try again. Make sure to shake left and right more than 2 times')
+			time.sleep(1)
+	while True:
+		print('Do a tilt')
+		response=r.get()
+		if response==3:
+			print('Tilt detected. Good job!')
+			time.sleep(1)
+			break
+		else:
+			print('Please try again. Try tilting it faster, then holding it for 2 seconds')
+			time.sleep(1)
+	print('Calibration complete.')

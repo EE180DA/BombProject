@@ -31,6 +31,7 @@ class Client:
 			received = self.client.recv(4096)
 			time.sleep(0.1)
 			if received == "ACK":
+				print('Acknowledged')
 				break
 			else:
 				print('Message not sent')
@@ -66,26 +67,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -102,26 +103,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -139,26 +140,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -176,26 +177,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -212,26 +213,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -248,26 +249,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -284,26 +285,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -320,26 +321,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -356,26 +357,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -392,26 +393,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -428,26 +429,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -464,26 +465,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -500,26 +501,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -536,26 +537,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
@@ -572,26 +573,26 @@ if __name__ == '__main__':
 					break
 				g.sendMessage('Right')
 				time.sleep(1)
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
 				g.sendMessage(c)
 			elif response == 3:
-				g.sendMessage('Pass')
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
 				c=g.gesQuestions[i]
+				g.sendMessage('Pass')
 				time.sleep(1)
 				g.sendMessage(c)
 			elif response == 4:
 				g.sendMessage('Hint')
 				time.sleep(1)
 			else:
-				if i<7:
+				if i<15:
 					i+=1
 				else: 
 					i=0
