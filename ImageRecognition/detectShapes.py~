@@ -10,8 +10,8 @@ import random
 class DetectShapes:
 
 	def __init__ (self):
-		self.shapes = ["triangle", "square", "pentagon", "hexagon"]
-		self.shapes_morse = {"triangle" : "- .-. ..", "square" : "... --.- ..-", "pentagon" : ".--. . -. ", "hexagon" : ".... . -..-"}
+		self.shapes = ["triangle", "rectangle", "pentagon", "hexagon"]
+		self.shapes_morse = {"triangle" : "- .-. ..", "rectangle" : ".-. . -.-.", "pentagon" : ".--. . -. ", "hexagon" : ".... . -..-"}
 		self.colors = ["red", "blue", "green", "black", "brown", "purple", "orange"]
 		self.colors_morse =  {"red" : ".-. . -..", "blue" : "-... .-.. ..-", "green" : "--. .-. .", "black" : "-... .-.. .-", "brown" : "-... .-. ---", "purple" : ".--. ..- .-.", "orange" : "--- .-. .-"}
                 self.target_col = self.choose_target_color()

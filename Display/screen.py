@@ -38,6 +38,10 @@ class Display:
                 r=0
                 g=255
                 b=0
+            elif (color == "y"):
+                r=255
+                g=255
+                b=0
             elif (color == "o"):
                 r=255
                 g=255

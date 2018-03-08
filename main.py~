@@ -21,6 +21,10 @@ class GameInstance:
 		self.Button = TheButton()
                 self.difficulty = self.Button.select_difficulty()
 		self.time = 300 #time left in seconds
+                if self.difficulty == 2:
+                    self.time = 400
+                elif self.difficulty == 3:
+                    self.time = 500
 		self.timeleft = self.time+3
 		self.errorPenalty = 5*self.difficulty
 		self.minigames = ['buttons', 'images', 'gestures', 'voice']
@@ -73,7 +77,7 @@ class GameInstance:
 		return self.difficulty
 
 	def get_time(self):
-		print "\nTime left: " + str(int(self.timeleft))
+		#print "\nTime left: " + str(int(self.timeleft))
 		self.write_bot("\nTime left: " + str(int(self.timeleft)))
 		return int(self.timeleft)
 
@@ -168,7 +172,7 @@ class GameInstance:
                     self.score += 50
                     self.lcd.flash(2, "g")
                 elif result == 2:
-                    self.timeleft += 30
+                    self.time += 30
                     self.lcd.flash(2, "g")
 
 	def move(self, color):
@@ -214,7 +218,6 @@ class GameInstance:
 		self.display_thread.start()
 		self.buzz_thread.start()
 		#self.move("red")
-                time.sleep(3)
 		
 		print "\nTime to play: " + self.minigames[0]
 		result = self.start_minigame(self.minigames[0])
@@ -262,11 +265,11 @@ class GameInstance:
 
 	def start_minigame(self, game_name):
 		if game_name == "images":
-                        #self.write_top("Images")
+                       # self.write_top("Images")
 			self.image_game()
 
 		elif game_name == "buttons":
-			self.write_top("Buttons")
+			#self.write_top("Buttons")
 			self.buttons_game()
 
 		elif game_name == "gestures":
@@ -274,11 +277,11 @@ class GameInstance:
 			self.gestures_game()
 
 		elif game_name == "voice":
-			self.write_top("Speech")
+			#self.write_top("Speech")
 			self.voice_game()
                         
 		elif game_name == "wirecutting":
-			self.write_top("Wirecutting")
+			#self.write_top("Wirecutting")
 			self.wires_game()
 				
 
@@ -301,6 +304,7 @@ class GameInstance:
 		d.start_minigame()
 		if self.difficulty == 3:
 			self.server_display.send("#")
+                self.write_bot2("")
 		self.success()
 	
 	def voice_game(self):
@@ -313,12 +317,13 @@ class GameInstance:
 
 
 		if self.difficulty == 1:
-			self.server_display.send(str(random_num))
-			v.startrecording(random_num)
+			self.write_top2(str(random_num))
+			v.startrecording(random_num-1)
 		elif self.difficulty == 2:
+                        self.write_top2("Manual")
 			v.startrecording(index_num)
 		else:
-			self.server_display.send(str(random_num))	
+			self.write_top2(str(random_num))	
 			game_num = ((4-index_num)*random_num)%4
 			print game_num
 			v.startrecording(game_num)
@@ -330,19 +335,22 @@ class GameInstance:
                 prev_result = ""
 		while(True):
 			result = self.server_wire.get_result()
-			if(result[1] == "W"):
-                                self.write_top2(result[2])
+                        if result == "":
+                            time.sleep(0.1)
+                            continue
+			elif(result[0] == "W"):
+                                self.write_top2(result[1])
                                 self.penalize()
                                 result = ""
-                        if(result[1] == "R"):
-                                self.write_top2(result[2])
+                        elif(result[0] == "R"):
+                                self.write_top2(result[1])
 				self.correct()
                                 result = ""
-                        if result == "Success":
+                        elif result == "Success":
                             print "Success Received"
                             self.write_top2("Success")
                             break
-                        if result != "":
+                        elif result != "":
                             if self.write_top2(result) == False:
                                 print "failed to send"
                                 self.write_top2(result)
@@ -364,6 +372,7 @@ class GameInstance:
                                 break
 			if result != "":
 				self.write_top2(result)
+                        time.sleep(0.1)
 		self.success()
 
 	def wires_game(self):
@@ -384,6 +393,7 @@ class GameInstance:
                                 print "failed to send"
                                 time.sleep(0.5)
                                 self.write_top2(result)
+                        time.sleep(0.1)
 		self.success()
 
 
