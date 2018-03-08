@@ -137,6 +137,7 @@ class Client:
 					if i == 8 or self.buttonScreenDisplay[i] == 8:
 						break
 					else:
+						#send to server to indicate right along with the next screen number to display
 						self.sendMessage("R"+str(self.buttonScreenDisplay[i]))
 					time.sleep(0.5)
 					break

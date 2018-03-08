@@ -48,6 +48,13 @@ class TheButton:
 						self.difficulty = 3
                                                 self.lcd.set_color("r")
 						print("Hard")
+
+					elif time.time()-time_start < 9:
+						#tutorial
+						self.lcd.write_bot("Tutorial")
+						self.difficulty = 0	
+						self.lcd.set_color("o")
+						print("Tutorial")
 					else:
 						#loop back
 						time_start = time.time()
