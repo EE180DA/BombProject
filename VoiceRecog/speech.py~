@@ -84,7 +84,7 @@ class SpeechRecognition:
             # Record audio
             stream = p.open(format=self.FORMAT, channels=self.CHANNELS, rate=self.RATE, input=True, frames_per_buffer=self.CHUNK)
             print("* recording")
-            lcd.setcolor('g')
+            self.lcd.set_color('g')
             frames = []
             for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
                     data = stream.read(self.CHUNK, exception_on_overflow=False)
@@ -92,7 +92,7 @@ class SpeechRecognition:
             print("* done recording")
             stream.stop_stream()
             stream.close()
-            lcd.setcolor('o')
+            self.lcd.set_color('o')
             #p.terminate()
 
             # Write .wav file

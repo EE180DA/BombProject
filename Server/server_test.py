@@ -22,6 +22,7 @@ class Server:
         while True:
             msg = client_socket.recv(1024)
             if msg != "":
+                print "Server Received: %s" % msg
                 if self.result[0] == "":
                     self.result[0] = msg
                     client_socket.send('ACK')
@@ -35,7 +36,7 @@ class Server:
         self.result[0] = self.result[1]
         self.result[1] = ""
         if res != "":
-            print res
+            print "get result has been called: %s"  % res
         return res
 
     #Starts the server, waits for a connection with a client, receives the result of the game(Fail or Success)

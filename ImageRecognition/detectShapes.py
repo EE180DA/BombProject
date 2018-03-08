@@ -77,7 +77,7 @@ class DetectShapes:
 			 		# color = cd.detect(frame[cX, cY])
 			 		color = "unknown"
 			 		if cX < resized.shape[0]-10 and cX > 10 and cY < resized.shape[1]-10 and cY > 10:
-			 			pixel = ycb[cX-10:cX+10, cY-10:cY+10]
+			 			pixel = ycb[cY-10:cY+10, cX-10:cX+10]
 			 			color = cd.detect(pixel)
 					# multiply the contour (x, y)-coordinates by the resize ratio,
 					# then draw the contours and the name of the shape on the image

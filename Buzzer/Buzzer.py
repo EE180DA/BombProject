@@ -17,7 +17,7 @@ class Buzzer():
             sound = self.sounds[name]
             duration = self.durations[name]
             for i in range (0, len(sound)):
-                print(self.buzzer.playSound(sound[i], duration[i]))
+                self.buzzer.playSound(sound[i], duration[i])
                 time.sleep(self.delay[name])
 
 
